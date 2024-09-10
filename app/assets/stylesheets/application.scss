@@ -1,0 +1,422 @@
+@import "bootstrap";
+
+// body {
+//   background-color: #bdc4cc; /* Light background color for the entire app */
+// }
+
+.medicine-form-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh; /* Ensures the form section is centered */
+  background-color:#f4f4f4; /* Background color specific to the medicine form section */
+}
+
+form {
+  background-color: #bff3c7; /* White background for the form */
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px; 
+  width: 80%; 
+}
+
+.medicine-form-group {
+  margin-bottom: 15px;
+}
+
+.medicine-form-control {
+  width: 100%; 
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.medicine-btn-primary {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff; 
+  color: #fff; 
+  border: none;
+  border-radius: 4px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.medicine-btn-primary:hover {
+  background-color: #00b351;
+}
+
+
+.medicine-details-title {
+  text-align: center;
+  color: #333; /* Dark text color */
+  margin-bottom: 20px;
+  font-size: 24px; /* Larger font size for the title */
+}
+
+.medicine-details {
+  background-color: #e6f8f2; /* Light background for the details */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 600px;
+  margin: 0 auto; /* Center the details block horizontally */
+  text-align: center; /* Center the text */
+}
+
+.medicine-details p {
+  font-size: 18px; /* Adjust font size for readability */
+  margin-bottom: 15px; /* Space between paragraphs */
+}
+
+.medicine-details strong {
+  color: #7a5a5a; /* Dark color for labels */
+}
+
+/* Centering and aligning buttons */
+.medicine-details .button-container {
+  display: flex;
+  justify-content: center; /* Align buttons horizontally */
+  flex-wrap: wrap; /* Allow wrapping if the buttons don't fit in one line */
+  gap: 10px; /* Space between buttons */
+  margin-top: 20px;
+}
+.medicine-btn-success {
+  display: inline-block; /* Makes the buttons inline elements */
+  width: auto; /* Let the button adjust based on content */
+  padding: 10px 20px; /* Padding for better click area */
+  background-color: #6c757d; /* Button background color */
+  color: #fff; /* White text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  text-align: center; /* Center text inside button */
+  text-decoration: none; /* Remove underline from link */
+  cursor: pointer; /* Show pointer on hover */
+}
+
+.medicine-btn-secondary{
+    display: inline-block; /* Makes the buttons inline elements */
+    width: auto; /* Let the button adjust based on content */
+    padding: 10px 20px; /* Padding for better click area */
+    background-color: #6c757d; /* Button background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center; /* Center text inside button */
+    text-decoration: none; /* Remove underline from link */
+    cursor: pointer; /* Show pointer on hover */
+  }
+
+.medicine-btn-success {
+  background-color: #0f5c1a; /* Success button color */
+}
+
+.medicine-btn-secondary:hover {
+  background-color: #74bcf3; /* Darker hover color for secondary button */
+}
+
+.medicine-btn-success:hover {
+  background-color: #182631; /* Darker hover color for success button */
+}
+
+  
+
+  body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+  }
+  
+  .hero {
+    background: #007bff;
+    color: #fff;
+    padding: 50px 0;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .features {
+    padding: 30px 0;
+  }
+  
+  .feature-box {
+    background: #c1cbee;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .feature-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .feature-description {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .btn-primary {
+    background-color: #4e9df1;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+  }
+  
+  .btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+  
+  .footer {
+    background: #039179;
+    color: #fff;
+    padding: 10px 0;
+    height: 117px;
+  }
+
+
+  /* app/assets/stylesheets/application.css */
+.flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+}
+
+.flash.notice {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+
+
+/* Devise Gem CSS */
+.devise-form {
+  width: 400px;
+  margin: 5px auto;
+  padding: 10px;
+  background-color: #eceff1;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+.devise-field {
+  margin-bottom: 15px;
+}
+
+.devise-field label {
+  display: block;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.devise-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.devise-select{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.devise-input:focus, .devise-select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.devise-actions {
+  text-align: center;
+}
+
+.devise-submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.devise-submit:hover {
+  background-color: #0056b3;
+}
+
+.devise-submit:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.devise-links {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.devise-links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.devise-links a:hover {
+  text-decoration: underline;
+}
+
+
+.logout-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #f32626;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.logout-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+/* Update homepage css */
+
+.app-features {
+  padding: 50px 0;
+  background-color: #f8f9fa;
+}
+.app-features h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #343a40;
+  text-align: center;
+}
+.app-features p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Feature Cards */
+.feature-box {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.feature-title {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+.feature-description {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin: 10px 0;
+}
+
+/* Footer Button Styles */
+.branch-button {
+  display: inline-block;
+  margin: 30px auto;
+  padding: 12px 25px;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+}
+.branch-button:hover {
+  background-color: #218838;
+  color: #fff;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+.footer p {
+  margin: 0;
+}

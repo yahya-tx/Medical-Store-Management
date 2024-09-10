@@ -1,0 +1,45 @@
+<h1>Stock Transfers</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>From Branch</th>
+      <th>To Branch</th>
+      <th>Total Quantity</th>
+      <th>Status</th>
+      <th>Requested By</th>
+      <th>Approved From</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stock_transfers.each do |stock_transfer| %>
+      <tr>
+        <td><%= stock_transfer.id %></td>
+        <td><%= Branch.find_by(id: stock_transfer.branch_id).name %></td>
+        <td><%= Branch.find_by(id: stock_transfer.to_branch_id).name %></td>
+        <td><%= stock_transfer.quantity %></td>
+        <td><%= stock_transfer.status.capitalize %></td>
+        <td><%= User.find_by(id: stock_transfer.requested_by_id).name %></td>
+        <td><%= User.find_by(id: stock_transfer.approved_by_id).name if stock_transfer.approved_by_id %></td>
+        <td>
+          <%= link_to 'View Details', branch_stock_transfer_path(@branch, stock_transfer), class: 'btn btn-info' %>
+            <% if !current_user.super_admin? %>
+                <%= link_to 'New Transfer', new_branch_stock_transfer_path(@branch), class: 'btn btn-success' %>
+                <%= link_to 'Edit', edit_branch_stock_transfer_path(@branch, stock_transfer), class: 'btn btn-secondary' %>
+            <% end %>
+            <% if current_user.super_admin? %>
+              <% if stock_transfer.status == "pending" %>
+                <%= link_to 'Approve Transfer', approve_branch_stock_transfer_path(@branch, stock_transfer), method: :post, data: { turbo_method: :post, confirm: 'Are you sure you want to approve this transfer?' }, class: ' medicine-btn-success' %>
+              <% end %>
+              <%= link_to 'Delete Transfer', branch_stock_transfer_path(@branch, stock_transfer), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure you want to delete this transfer?' }, class: 'btn btn-danger' %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Back to Home', root_path, class: 'btn btn-secondary' %>
+<div class="total-sales">
+</div>

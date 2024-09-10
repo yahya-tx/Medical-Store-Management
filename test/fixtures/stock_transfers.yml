@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_branch: one
+  to_branch: one
+  medicine: one
+  quantity: 1
+  status: 1
+  requested_by: one
+  approved_by: one
+
+two:
+  from_branch: two
+  to_branch: two
+  medicine: two
+  quantity: 1
+  status: 1
+  requested_by: two
+  approved_by: two

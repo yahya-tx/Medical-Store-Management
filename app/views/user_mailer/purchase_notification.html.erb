@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #e6e6e6;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      color: #007bff;
+      font-size: 24px;
+      margin: 0;
+    }
+    .content {
+      margin-bottom: 20px;
+    }
+    .content p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+    .medicines {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .medicines th, .medicines td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .medicines th {
+      background-color: #f4f4f4;
+      color: #007bff;
+    }
+    .footer {
+      text-align: center;
+      border-top: 2px solid #e6e6e6;
+      padding-top: 10px;
+    }
+    .footer p {
+      font-size: 14px;
+      color: #777;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Thank You for Your Purchase!</h1>
+    </div>
+    <div class="content">
+      <p>Dear <%= @customer.name %>,</p>
+      <p>We have successfully processed your purchase. Below are the details of your transaction:</p>
+      
+      <p>Total Amount: <%= @record.total_amount %> Rs</p>
+      <p>Payment Method: <%= @record.payment_method.capitalize %></p>
+
+      <h2>Medicines Purchased:</h2>
+      <table class="medicines">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @record.medicine_ids.each do |medicine| %>
+            <tr>
+              <td><%= medicine['name'] %></td>
+              <td><%= medicine['number_of_tablets'] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p>Thank you for shopping with us!</p>
+    </div>
+    <div class="footer">
+      <p>Pharma Store | Lahore | 042-212 234 323</p>
+    </div>
+  </div>
+</body>
+</html>
+
