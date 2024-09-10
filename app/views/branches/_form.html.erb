@@ -1,0 +1,18 @@
+<section class="medicine-form-section">
+ <%= form_with(model: branch, local: true) do |form| %>
+    <div class="medicine-form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :location %>
+      <%= form.text_field :location, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.submit class: 'medicine-btn-primary' %>
+    </div>
+  <% end %>
+</section>
+  

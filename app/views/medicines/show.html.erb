@@ -1,0 +1,33 @@
+<h1 class="medicine-details-title">Medicine Details</h1>
+
+<div class="medicine-details">
+  <p>
+    <strong>Name:</strong>
+    <%= @medicine.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= @medicine.description %>
+  </p>
+
+  <p>
+    <strong>Price:</strong>
+    <%= @medicine.price %>
+    Rs
+  </p>
+
+  <p>
+    <strong>Quantity:</strong>
+    <%= @medicine.quantity %>
+    Tablets
+  </p>
+
+  <p>
+    <strong>Branch:</strong>
+    <%= @medicine.branch.name %>
+  </p>
+</div>
+
+<%= link_to 'Back', branch_medicines_path(@branch), class: 'btn btn-secondary' %>
+

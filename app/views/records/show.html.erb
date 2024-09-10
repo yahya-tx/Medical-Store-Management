@@ -1,0 +1,31 @@
+<h1 class="medicine-details-title">Bill Details</h1>
+
+<div class="medicine-details">
+  <p>
+    <strong>ID:</strong>
+    <%= @record.id %>
+  </p>
+
+  <p>
+    <strong>Total Amount:</strong>
+    <%= @record.total_amount %> Rs
+  </p>
+
+  <p>
+    <strong>Payment Method:</strong>
+    <%= @record.payment_method %>
+  </p>
+
+  <p>
+    <strong>Medicine Detail:</strong>
+    <ul>
+      <% @record.medicine_ids.each do |medicine| %>
+        <li>
+          <%= "Code: #{medicine['code']}, Name: #{medicine['name']}, Quantity: #{medicine['number_of_tablets']}" %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+</div>
+
+<%= link_to 'Back', branch_records_path(@branch), class: 'medicine-btn-secondary' %>

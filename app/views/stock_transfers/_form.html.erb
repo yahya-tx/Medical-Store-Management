@@ -1,0 +1,53 @@
+<section class="medicine-form-section">
+  <%= form_with(model: [@branch, @stock_transfer], local: true) do |form| %>
+
+    <div class="medicine-form-group">
+      <%= form.label :to_branch_id, "Request To Branch" %>
+      <%= form.collection_select :to_branch_id, Branch.all, :id, :name, { prompt: 'Select Branch' }, class: 'medicine-form-control' %>
+    </div>
+
+    <!-- Medicine Fields -->
+    <div id="medicines-fields">
+      <div class="medicine-form-group">
+        <%= form.label :medicine_name, "Enter Medicine Name" %>
+        <input type="text" name="stock_transfer[medicine_name][]" class="medicine-form-control" placeholder="Enter the medicine name">
+      </div>
+
+      <div class="medicine-form-group">
+        <%= form.label :quantity, "Enter Quantity" %>
+        <input type="number" name="stock_transfer[quantity][]" class="medicine-form-control" placeholder="Enter quantity">
+      </div>
+    </div>
+
+    <%= link_to 'Add another medicine', 'javascript:void(0);', id: 'add-medicine', class: 'btn btn-secondary' %>
+    
+    <div class="medicine-form-group">
+      <%= form.label :approved_by_id, "Approved By" %>
+      <%= form.collection_select :approved_by_id, User.where(role: 'super_admin'), :id, :name, { prompt: 'Select User To Approve Stock Request' }, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= form.submit class: 'medicine-btn-primary' %>
+    </div>
+
+  <% end %>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("add-medicine").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    const medicinesFields = document.getElementById("medicines-fields");
+    const newField = `
+      <div class="medicine-form-group">
+        <input type="text" name="stock_transfer[medicine_name][]" class="medicine-form-control" placeholder="Enter the medicine name">
+      </div>
+      <div class="medicine-form-group">
+        <input type="number" name="stock_transfer[quantity][]" class="medicine-form-control" placeholder="Enter quantity">
+      </div>
+    `;
+    medicinesFields.insertAdjacentHTML('beforeend', newField);
+  });
+});
+</script>
