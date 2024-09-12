@@ -1,17 +1,38 @@
 class StockTransfersController < ApplicationController
-  before_action :set_branch, only: [:create, :new, :index, :show, :update, :destroy, :edit]
-  before_action :set_stock_transfer, only: [:show, :update, :destroy, :edit]
+  before_action :set_branch, only: [:create, :new, :index, :show, :update, :destroy, :edit,:upload_pdf]
+  before_action :set_stock_transfer, only: [:show, :update, :destroy, :edit,:upload_pdf]
 
   def new
     @stock_transfer = @branch.stock_transfers.new
   end
 
   def index
-    @stock_transfers = @branch.stock_transfers
+    if current_user.super_admin?
+      @stock_transfers = @branch.stock_transfers.where.not(pdf: nil).where(approved_by_id: current_user.id)
+    else
+      @stock_transfers = @branch.stock_transfers
+    end
   end
 
   def show
-    @branch
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = StockTransferPdfGenerator.new(@stock_transfer).generate
+        send_data pdf.render, filename: "stock_transfer_#{@stock_transfer.id}.pdf", type: 'application/pdf', disposition: 'inline'
+      end
+    end
+  end
+
+  def upload_pdf
+    if @stock_transfer.update(stock_transfer_params)
+      @stock_transfer.update(requested_by_id: current_user.id)
+      flash[:notice] = 'PDF uploaded successfully'
+      redirect_to branch_stock_transfer_path(@branch, @stock_transfer)
+    else
+      flash[:alert] = 'Failed to upload PDF'
+      render :show
+    end
   end
 
   def create
@@ -64,7 +85,7 @@ class StockTransfersController < ApplicationController
       requested_branch_medicine =  Medicine.find_by('lower(name) = ? AND branch_id = ?', med['name'].downcase, stock_transfer.branch_id)
       if requested_branch_medicine.present?
         new_quantity = requested_branch_medicine.quantity + stock_quantity
-        medicine.update(quantity: new_quantity)
+        requested_branch_medicine.update(quantity: new_quantity)
       else
         Medicine.create(
           name: medicine.name,
@@ -77,6 +98,9 @@ class StockTransfersController < ApplicationController
       end
     end
     if stock_transfer.update(status: 'approved', approved_by_id: current_user.id)
+      user = User.find_by(id: stock_transfer.requested_by_id)
+      message = "Your Stock transfer request is approved by #{current_user.name}"
+      NotificationJob.perform_later(user,message)
       flash[:notice] = 'Stock transfer approved successfully.'
     else
       flash[:alert] = 'Failed to update stock transfer status.'
@@ -107,7 +131,7 @@ class StockTransfersController < ApplicationController
   end
 
   def stock_transfer_params
-    params.require(:stock_transfer).permit(:quantity, :to_branch_id, :approved_by_id)
+    params.require(:stock_transfer).permit(:quantity, :to_branch_id, :approved_by_id, :pdf)
   end
 
   def handle_medicines(medicine_names, quantities)
@@ -116,9 +140,9 @@ class StockTransfersController < ApplicationController
       total_quantity = 0
 
       medicine_names.each_with_index do |name, index|
-        medicine = Medicine.find_by('lower(name) = ?', name.downcase)
+        medicine = Medicine.find_by('lower(name) = ? AND branch_id = ?', name.downcase, params[:stock_transfer][:to_branch_id].to_i)
         quantity = quantities[index].to_i
-        if medicine.present? && medicine.branch_id == params[:stock_transfer][:to_branch_id].to_i
+        if medicine.present?
           if medicine.quantity >= quantity
             @stock_transfer.medicine_ids << { medicine_id: medicine.id, name: medicine.name, code: medicine.product_code, quantity: quantity }
             total_quantity += quantity

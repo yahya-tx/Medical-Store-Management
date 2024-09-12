@@ -10,7 +10,7 @@
 
   <div class="devise-field">
     <%= f.label :phone_number %><br />
-    <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input' %>
+    <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input', placeholder: 'xxxx-xxxxxxx' %>
   </div>
 
   <div class="devise-field">
@@ -36,6 +36,10 @@
   <%= f.select :role, ['super_admin', 'branch_admin', 'cashier', 'customer'], {}, { class: 'devise-select' } %>
   </div>
 
+  <div class="devise-field">
+    <%= f.label :branch_id, "Select Branch" %>
+    <%= f.collection_select :branch_id, Branch.all, :id, :name, { prompt: 'Select branch' }, class: 'medicine-form-control' %>
+ </div>
 
   <div class="devise-actions">
     <%= f.submit "Sign up", class: 'devise-submit' %>

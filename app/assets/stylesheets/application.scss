@@ -8,116 +8,242 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh; /* Ensures the form section is centered */
-  background-color:#f4f4f4; /* Background color specific to the medicine form section */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f4f4f4, #f4f4f4); /* Beautiful gradient background */
+  padding: 20px;
 }
 
 form {
-  background-color: #bff3c7; /* White background for the form */
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 500px; 
-  width: 80%; 
+  background-color: #ffffff; /* White background */
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Deeper shadow for a modern feel */
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animations */
+}
+
+form:hover {
+  transform: translateY(-10px); /* Slight movement on hover for an engaging effect */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
 
 .medicine-form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.medicine-form-group label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #495057; /* Soft dark color for labels */
+  display: block;
+  margin-bottom: 5px;
 }
 
 .medicine-form-control {
   width: 100%; 
-  padding: 10px;
-  border-radius: 4px;
+  padding: 15px;
+  border-radius: 8px;
   border: 1px solid #ced4da;
+  font-size: 16px;
+  background-color: #f8f9fa; /* Slight background for input fields */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow inside input */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.medicine-form-control:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.25); /* Blue glow on focus */
 }
 
 .medicine-btn-primary {
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   background-color: #007bff; 
-  color: #fff; 
+  color: #fff;
   border: none;
-  border-radius: 4px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease, color 0.3s ease; 
+  border-radius: 50px; /* Rounded button */
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .medicine-btn-primary:hover {
-  background-color: #00b351;
+  background-color: #0056b3;
+  transform: translateY(-3px); /* Button lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 91, 187, 0.2); /* Soft shadow on hover */
 }
 
-
-.medicine-details-title {
-  text-align: center;
-  color: #333; /* Dark text color */
-  margin-bottom: 20px;
-  font-size: 24px; /* Larger font size for the title */
-}
-
-.medicine-details {
-  background-color: #e6f8f2; /* Light background for the details */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  max-width: 600px;
-  margin: 0 auto; /* Center the details block horizontally */
-  text-align: center; /* Center the text */
-}
-
-.medicine-details p {
-  font-size: 18px; /* Adjust font size for readability */
-  margin-bottom: 15px; /* Space between paragraphs */
-}
-
-.medicine-details strong {
-  color: #7a5a5a; /* Dark color for labels */
-}
-
-/* Centering and aligning buttons */
-.medicine-details .button-container {
-  display: flex;
-  justify-content: center; /* Align buttons horizontally */
-  flex-wrap: wrap; /* Allow wrapping if the buttons don't fit in one line */
-  gap: 10px; /* Space between buttons */
-  margin-top: 20px;
-}
-.medicine-btn-success {
-  display: inline-block; /* Makes the buttons inline elements */
-  width: auto; /* Let the button adjust based on content */
-  padding: 10px 20px; /* Padding for better click area */
-  background-color: #6c757d; /* Button background color */
-  color: #fff; /* White text color */
-  border: none; /* Remove border */
-  border-radius: 4px; /* Rounded corners */
-  text-align: center; /* Center text inside button */
-  text-decoration: none; /* Remove underline from link */
-  cursor: pointer; /* Show pointer on hover */
-}
-
-.medicine-btn-secondary{
-    display: inline-block; /* Makes the buttons inline elements */
-    width: auto; /* Let the button adjust based on content */
-    padding: 10px 20px; /* Padding for better click area */
-    background-color: #6c757d; /* Button background color */
-    color: #fff; /* White text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    text-align: center; /* Center text inside button */
-    text-decoration: none; /* Remove underline from link */
-    cursor: pointer; /* Show pointer on hover */
-  }
-
-.medicine-btn-success {
-  background-color: #0f5c1a; /* Success button color */
+.medicine-btn-secondary {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 50px; /* Rounded button */
+  font-size: 16px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .medicine-btn-secondary:hover {
-  background-color: #74bcf3; /* Darker hover color for secondary button */
+  background-color: #5a6268;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(90, 98, 104, 0.2);
+}
+
+#add-medicine {
+  margin-top: 20px;
+  background-color: #28a745;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#add-medicine:hover {
+  background-color: #218838;
+  transform: translateY(-3px);
+}
+
+.medicine-form-section h1 {
+  color: #343a40;
+  font-size: 36px; /* Larger and bolder heading */
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Slight text shadow for effect */
+}
+
+
+/* Container for the medicine details */
+.medicine-details {
+  background-color: #f4f8f7e7;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  max-width: 800px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* Title of the medicine details section */
+.medicine-details-title {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Paragraph styling */
+.medicine-details p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #6c757d;
+}
+
+/* Highlighted text */
+.medicine-details strong {
+  color: #007bff;
+}
+
+/* Button styling */
+.medicine-btn-primary, .medicine-btn-success, .medicine-btn-secondary {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 10px;
+}
+
+/* Primary button */
+.medicine-btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}
+
+.medicine-btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Success button */
+.medicine-btn-success {
+  background-color: #013b0d;
+  color: #fff;
+  border: none;
 }
 
 .medicine-btn-success:hover {
-  background-color: #182631; /* Darker hover color for success button */
+  background-color: #218840;
+}
+
+/* Secondary button */
+.medicine-btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+}
+
+.medicine-btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Container for buttons to align them */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 40%; 
+  box-sizing: border-box;
+  text-align: center;
+  margin-left: 40px;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(253, 1, 1, 0.15);
+}
+
+.card-title {
+  font-size: 24px;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+
+.card-description {
+  font-size: 16px;
+  color: #6c757d;
+  margin-bottom: 20px;
 }
 
   
@@ -419,4 +545,113 @@ h2 {
 }
 .footer p {
   margin: 0;
+}
+
+
+/* Ensure the notification bell is positioned correctly */
+.notification-bell {
+  position: fixed; /* Fixed positioning so it stays at the top of the screen */
+  top: 10px; /* Distance from the top of the screen */
+  right: 10px; /* Distance from the right of the screen */
+  display: flex;
+  align-items: center;
+  background-color: #fff; /* White background for better visibility */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 25px; /* Rounded corners */
+  padding: 10px 15px; /* Padding inside the bell */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+.notification-bell a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.notification-bell #notification-count {
+  background-color: #ff5e5e;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 4px 7px;
+  margin-right: 8px; /* Space between the count and the icon */
+}
+
+.notification-bell .icon {
+  font-size: 20px;
+  color: #ff5e5e;
+}
+
+
+/* Styles for the notifications index view */
+.notifications-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.notifications-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.notifications-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notifications-container li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-container li a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.notifications-container li a:hover {
+  text-decoration: underline;
+}
+
+.notifications-container .btn {
+  margin-left: 10px;
+}
+
+/* Styles for the notifications show view */
+.notification-show-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.notification-show-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.notification-show-container p {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.notification-show-container .btn {
+  margin-right: 10px;
 }
