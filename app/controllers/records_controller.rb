@@ -54,9 +54,11 @@ class RecordsController < ApplicationController
         end
       end
 
-      customer = User.find_or_create_by(phone_number: params[:record][:customer_contact], role: 'customer')
-
-      @record.customer_id = customer.id
+      customer = User.find_by(phone_number: params[:record][:customer_contact], role: 'customer')
+      # if !customer.present?
+      #   customer = User.create(phone_number: params[:record][:customer_contact], role: 'customer', password: "123456")
+      # end
+      @record.customer_id = customer.id if customer.present?
       @record.cashier_id = current_user.id
       @record.payment_method = params[:record][:payment_method]
       @record.customer_contact = params[:record][:customer_contact]
@@ -68,7 +70,8 @@ class RecordsController < ApplicationController
         flash[:notice] = 'Record created successfully'
         redirect_to branch_record_path(@branch, @record)
       else
-        render :new
+        flash[:alert] = 'Error While Creating Bill'
+        redirect_to branch_records_path(@branch)
       end
     else
       flash[:alert] = 'Mismatched medicine names and tablet counts'

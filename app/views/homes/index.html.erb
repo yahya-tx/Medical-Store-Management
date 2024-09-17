@@ -14,7 +14,18 @@
       <p class="hero-subtitle">Your trusted care partner</p>
     </div>
   </header>
-  
+
+  <% if user_signed_in? %>
+    <div class="notification-bell">
+      <%= link_to notifications_path do %>
+        <span id="notification-count">
+          <%= current_user.notifications.where(read: false).count %>
+        </span>
+        <span class="icon">🛎</span> Notifications
+      <% end %>
+    </div>
+  <% end %>
+
   <!-- New App Features Section -->
   <section class="app-features">
     <div class="container">

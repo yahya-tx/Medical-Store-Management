@@ -4,22 +4,12 @@
 
   <div class="devise-field">
     <%= f.label :phone_number %><br />
-    <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input' %>
-  </div>
-
-  <div class="devise-field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autocomplete: "email", class: 'devise-input' %>
+    <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input', placeholder: 'xxxx-xxxxxxx' %>
   </div>
 
   <div class="devise-field">
     <%= f.label :password %><br />
     <%= f.password_field :password, autocomplete: "current-password",class: 'devise-input'  %>
-  </div>
-
-  <div class="devise-field">
-  <%= f.label :role %><br />
-  <%= f.select :role, ['super_admin', 'branch_admin', 'cashier', 'customer'], {}, { class: 'devise-select' } %>
   </div>
 
   <% if devise_mapping.rememberable? %>

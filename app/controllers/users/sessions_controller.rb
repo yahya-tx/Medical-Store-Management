@@ -11,20 +11,13 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    email = params[:user][:email]
-    password = params[:user][:password]
     phone_number = params[:user][:phone_number]
-    role = params[:user][:role]
+    password = params[:user][:password]
     
-    user = User.find_by(email: email)
+    user = User.find_by(phone_number: phone_number)
     
     if user && user.valid_password?(password)
-      if user.role == role
-        sign_in_and_redirect user, event: :authentication
-      else
-        flash[:alert] = "Invalid phone number or role."
-        redirect_to new_user_session_path
-      end
+      sign_in_and_redirect user, event: :authentication
     else
       flash[:alert] = "Invalid email or password."
       redirect_to new_user_session_path

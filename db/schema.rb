@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_09_122441) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_12_081519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,17 +59,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_122441) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.bigint "customer_id", null: false
+    t.bigint "user_id", null: false
     t.text "message"
     t.integer "notification_type"
-    t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_notifications_on_customer_id"
+    t.boolean "read", default: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "records", force: :cascade do |t|
-    t.bigint "customer_id", null: false
+    t.bigint "customer_id"
     t.bigint "cashier_id", null: false
     t.decimal "total_amount"
     t.integer "payment_method"
@@ -93,6 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_122441) do
     t.datetime "updated_at", null: false
     t.jsonb "medicine_ids", default: []
     t.integer "branch_id"
+    t.string "pdf"
     t.index ["approved_by_id"], name: "index_stock_transfers_on_approved_by_id"
     t.index ["requested_by_id"], name: "index_stock_transfers_on_requested_by_id"
     t.index ["to_branch_id"], name: "index_stock_transfers_on_to_branch_id"
@@ -117,7 +118,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_122441) do
   add_foreign_key "audit_logs", "users"
   add_foreign_key "branches", "users"
   add_foreign_key "medicines", "branches"
-  add_foreign_key "notifications", "users", column: "customer_id"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "records", "users", column: "cashier_id"
   add_foreign_key "records", "users", column: "customer_id"
   add_foreign_key "stock_transfers", "branches", column: "to_branch_id"
