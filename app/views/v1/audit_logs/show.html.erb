@@ -1,0 +1,42 @@
+<h1 class="medicine-details-title">Branch Audit Details</h1>
+
+<div class="medicine-details">
+  <p>
+    <strong>Total Records:</strong>
+    <%= @audit_log.total_records_count %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= @audit_log.description %>
+  </p>
+
+  <p>
+    <strong>Total Sale:</strong>
+    <%= @audit_log.total_amount %>
+    Rs
+  </p>
+
+  <p>
+    <strong>Total Quantity:</strong>
+    <%= @audit_log.total_medicines_sold %>
+    Medicines(Tablets/Syrups/etc)
+  </p>
+
+  <p>
+    <strong>From:</strong>
+    <%= @audit_log.audited_from.strftime("%B %d, %Y") %>
+  </p>
+
+  <p>
+    <strong>To:</strong>
+    <%= @audit_log.audited_to.strftime("%B %d, %Y") %>
+  </p>
+
+  <p>
+    <strong>Branch:</strong>
+    <%= Branch.find_by(id: @branch.id).name %>
+  </p>
+</div>
+
+<%= link_to 'Back', v1_branch_audit_logs_path(@branch), class: 'btn btn-secondary' %>

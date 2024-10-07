@@ -1,0 +1,17 @@
+<section class="medicine-form-section">
+  <%= form_with(model: branch, url: branch.new_record? ? v1_branches_path : v1_branch_path(branch), local: true) do |form| %> 
+    <div class="medicine-form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= form.label :location %>
+      <%= form.text_field :location, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= form.submit branch.new_record? ? 'Create Branch' : 'Update Branch', class: 'medicine-btn-primary' %>
+    </div>
+  <% end %>
+</section>

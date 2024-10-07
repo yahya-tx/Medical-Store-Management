@@ -1,0 +1,46 @@
+<!-- app/views/v1/records/pending_orders.html.erb -->
+<div class="main-content container">
+  <h1 class="text-center mb-4 text-warning">Pending Orders</h1>
+
+  <!-- Records per page filter -->
+  <div class="records-per-page-filter mb-4">
+    <%= form_with url: pending_orders_v1_branch_records_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
+      <label for="per_page" class="form-label">Records per page:</label>
+      <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
+    <% end %>
+  </div>
+
+
+  <!-- Pending orders table -->
+  <table class="table table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Total Amount</th>
+        <th>Payment Method</th>
+        <th>Customer Contact</th>
+        <th>Customer Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pending_orders.each do |pending_order| %>
+        <tr>
+          <td><%= pending_order.id %></td>
+          <td><%= pending_order.total_amount %> Rs</td>
+          <td><%= pending_order.payment_method.capitalize %></td>
+          <td><%= User.find_by(id: pending_order.customer_id).phone_number %></td>
+          <td><%= User.find_by(id: pending_order.cashier_id).name %></td>
+          <td>
+            <%= link_to 'View Order Detail', v1_branch_record_path(@branch, pending_order), class: 'btn btn-outline-dark btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination-wrapper">
+    <%= paginate @pending_orders, class: "pagination justify-content-center" %>
+  </div>
+</div>

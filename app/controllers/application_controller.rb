@@ -4,20 +4,12 @@ class ApplicationController < ActionController::Base
     include Pundit
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-    def success_response(status, message, data = nil)
-        render json: {
-          status: status,
-          message: message,
-          data: data
-        }, status: status
-    end
-    
-    def error_response(status, message, errors = nil)
-        render json: {
-            status: status,
-            message: message,
-            errors: errors
-        }, status: status
+    def after_sign_in_path_for(current_user)
+      if current_user.sign_in_count == 1
+        v1_guidelines_path 
+      else
+        v1_root_path
+      end
     end
 
     protected
@@ -31,7 +23,7 @@ class ApplicationController < ActionController::Base
 
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."
-      redirect_to root_path
+      redirect_to v1_root_path
     end
 
 end

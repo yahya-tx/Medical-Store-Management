@@ -1,0 +1,52 @@
+<!-- app/views/v1/records/index.html.erb -->
+<div class="main-content container">
+  <h1 class="text-center mb-4 text-secondary">Sales Records (Last 90 Days)</h1>
+
+
+      <!-- Records per page filter -->
+      <div class="records-per-page-filter mb-4">
+        <%= form_with url: v1_branch_records_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
+          <label for="per_page" class="form-label">Records per page:</label>
+          <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
+        <% end %>
+      </div>
+
+
+  <!-- Sales records table -->
+  <table class="table table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Total Amount</th>
+        <th>Payment Method</th>
+        <th>Customer Contact</th>
+        <th>Cashier Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @records.each do |record| %>
+        <tr>
+          <td><%= record.id %></td>
+          <td><%= record.total_amount %> Rs</td>
+          <td><%= record.payment_method.capitalize %></td>
+          <td><%= record.customer_contact %></td>
+          <td><%= User.find_by(id: record.cashier_id).name %></td>
+          <td>
+            <%= link_to 'View Bill', v1_branch_record_path(@branch, record), class: 'btn btn-outline-dark btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Total Sales -->
+  <div class="total-sales mt-3">
+    <h3>Total Sales: <%= @total_sales %> Rs</h3>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-wrapper">
+    <%= paginate @records, class: "pagination justify-content-center" %>
+  </div>
+</div>

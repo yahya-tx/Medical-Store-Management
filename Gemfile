@@ -28,6 +28,11 @@ gem "jbuilder"
 
 gem 'bootstrap', '~> 5.3.3'
 
+gem 'kaminari'
+
+gem 'whenever', require: false
+gem 'stripe'
+
 gem 'sassc-rails'
 
 gem 'carrierwave'

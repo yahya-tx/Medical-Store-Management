@@ -1,0 +1,119 @@
+<div class="main-content container">
+  <h1 class="text-center mb-4 text-primary">Your Orders</h1>
+
+  <!-- Records per page filter -->
+  <div class="records-per-page-filter mb-4">
+    <%= form_with url: customer_records_v1_records_path, method: :get, local: true, class: 'form-per-page' do %>
+      <label for="per_page" class="form-label">Records per page:</label>
+      <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
+    <% end %>
+  </div>
+
+  <!-- Pending Orders Table -->
+  <div class="orders-section">
+    <h2 class="text-warning">Pending Orders</h2>
+    <table class="table table-hover table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Total Amount</th>
+          <th>Payment Method</th>
+          <th>Branch Name</th>
+          <th>Order Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pending_orders.each do |pending_order| %>
+          <tr>
+            <td><%= pending_order.id %></td>
+            <td><%= pending_order.total_amount %> Rs</td>
+            <td><%= pending_order.payment_method.capitalize %></td>
+            <td><%= Branch.find_by(id: pending_order.branch_id).name %></td>
+            <td>
+              <% if pending_order.medicine_ids.present? %>
+                <table class="table table-bordered mb-0 table-sm">
+                  <thead>
+                    <tr>
+                      <th>Medicine Name</th>
+                      <th>Quantity Ordered</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% pending_order.medicine_ids.each do |medicine| %>
+                      <tr>
+                        <td><%= medicine['name'] %></td>
+                        <td><%= medicine['number_of_tablets'] %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% else %>
+                No medicine details available
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <!-- Pagination for Pending Orders -->
+    <div class="pagination-wrapper">
+      <%= paginate @pending_orders, class: "pagination justify-content-center" %>
+    </div>
+  </div>
+
+  <!-- Delivered Orders Table -->
+  <div class="orders-section mt-5">
+    <h2 class="text-success">Delivered Orders</h2>
+    <table class="table table-hover table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Total Amount</th>
+          <th>Payment Method</th>
+          <th>Tracking ID</th>
+          <th>Branch Name</th>
+          <th>Order Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @delivered_orders.each do |delivered_order| %>
+          <tr>
+            <td><%= delivered_order.id %></td>
+            <td><%= delivered_order.total_amount %> Rs</td>
+            <td><%= delivered_order.payment_method.capitalize %></td>
+            <td><%= delivered_order.tracking_id %></td>
+            <td><%= Branch.find_by(id: delivered_order.branch_id).name %></td>
+            <td>
+              <% if delivered_order.medicine_ids.present? %>
+                <table class="table table-bordered mb-0 table-sm">
+                  <thead>
+                    <tr>
+                      <th>Medicine Name</th>
+                      <th>Quantity Ordered</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% delivered_order.medicine_ids.each do |medicine| %>
+                      <tr>
+                        <td><%= medicine['name'] %></td>
+                        <td><%= medicine['number_of_tablets'] %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% else %>
+                No medicine details available
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <!-- Pagination for Delivered Orders -->
+    <div class="pagination-wrapper">
+      <%= paginate @delivered_orders, class: "pagination justify-content-center" %>
+    </div>
+  </div>
+</div>

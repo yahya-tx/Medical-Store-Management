@@ -1,0 +1,51 @@
+<body>  
+  <div class="main-content container">
+    <div class="container">
+      <h1 class="text-center mb-4 text-secondary">Branches</h1>
+
+      <!-- Branches Table -->
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Created By</th>
+              <th>User Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @branches.includes(:user).each do |branch| %>
+              <tr>
+                <td><%= branch.name %></td>
+                <td><%= branch.location %></td>
+                <td><%= branch.user.name %></td>
+                <td><%= branch.user.role %></td>
+                <td>
+                  <div class="d-flex gap-2 justify-content-start">
+                    <%= link_to 'View', v1_branch_path(branch), class: 'btn btn-outline-success btn-sm' %>
+                    <%= link_to 'Edit', edit_v1_branch_path(branch), class: 'btn btn-outline-dark btn-sm' %>
+                    <%= link_to 'Delete', v1_branch_path(branch), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure you want to delete this branch?' }, class: 'btn btn-outline-danger btn-sm' %>
+                    <% if current_user.branch_admin? %>
+                      <%= link_to 'Add Medicine', new_v1_branch_medicine_path(branch), class: 'btn btn-success btn-sm' %>
+                    <% end %>
+                    <% if current_user.super_admin? %>
+                      <%= link_to 'View Users', v1_branch_users_path(branch), class: 'btn btn-outline-secondary btn-sm' %>
+                      <%= link_to 'Create User', new_v1_branch_user_path(branch), class: 'btn btn-outline-dark btn-sm' %>
+                      <%= link_to 'Expired', expired_medicines_v1_branch_medicines_path(branch),  class: 'btn btn-outline-dark btn-sm' %>
+                      <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4">
+        <%= link_to 'New Branch', new_v1_branch_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div> <!-- New Button -->
+</body>

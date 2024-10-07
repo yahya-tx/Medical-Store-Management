@@ -1,0 +1,21 @@
+<!-- app/views/notifications/show.html.erb -->
+<div class="main-content container">
+  <div class="notification-show-container">
+    <h2>Notification Details</h2>
+
+    <p>
+      <strong>Message:</strong>
+      <%= @notification.message %>
+    </p>
+
+    <% if @notification.order_id.present? %>
+      <p>
+        <strong>Order ID:</strong>
+        <%= @notification.order_id %>
+      </p>
+      <%= link_to 'View Order Details', v1_branch_record_path(current_user.branch), class: 'btn btn-secondary' %>
+      <% else %>
+      <%= link_to 'Back to Notifications', v1_notifications_path, class: 'btn btn-secondary' %>
+    <% end %>
+  </div>
+</div>

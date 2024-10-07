@@ -1,0 +1,141 @@
+<h2>Purchase Medicine</h2>
+<section class="medicine-form-section">
+  <div id="stripe-public-key" data-key="<%= Rails.application.credentials.stripe[:public_key] %>"></div>
+  <%= form_with(model: @record, url: customer_purchase_v1_records_path, local: true, html: { id: 'medicine-form' }) do |form| %>
+
+    <!-- Add branch selection here -->
+    <div class="medicine-form-group">
+    <%= form.label :branch_id, "Select Nearest Branch" %>
+    <%= form.collection_select :branch_id, Branch.all, :id, :name, { prompt: 'Select a branch' }, { class: 'medicine-form-control', id: 'branch-select' } %>
+  </div>
+  
+
+    <div id="medicines-fields">
+      <div class="medicine-form-group">
+        <%= form.label :medicine_name, "Select Medicine" %>
+        <%= form.collection_select :medicine_name, 
+          Medicine.all.uniq.map { |medicine| ["#{medicine.name} (#{medicine.quantity} available)", medicine.name] }, 
+          :last, :first, { prompt: 'Select a medicine' }, 
+          { name: 'record[medicine_name][]', class: 'medicine-form-control select-medicine', id: 'medicine-select' } %>
+      </div>
+
+      <div class="medicine-form-group">
+        <%= form.label :quantity %>
+        <input type="number" name="record[number_of_tablets][]" class="medicine-form-control" id="number-of-tablets" placeholder="Enter Quantity" min="1">
+        <div id="available-quantity" style="margin-top: 5px; font-weight: bold;"></div>
+      </div>
+    </div>
+    <div id="medicine-data" data-medicines="<%= Medicine.all.to_json(only: [:name, :quantity]) %>"></div>
+    <%= link_to 'Add another medicine', 'javascript:void(0);', id: 'add-medicine', class: 'btn btn-secondary' %>
+
+    <div class="medicine-form-group">
+      <%= form.label :payment_method %>
+      <%= form.select :payment_method, [["Cash", "cash"], ["Online", "online"]], {}, { class: 'medicine-form-control', id: 'payment-method-select' } %>
+    </div>
+
+    <div id="online-payment-fields" style="display: none;">
+      <div class="medicine-form-group">
+        <%= form.label :stripe_email, "Stripe Email" %>
+        <%= form.text_field :stripe_email, class: 'medicine-form-control', placeholder: 'Enter your Stripe email' %>
+      </div>
+      <div class="medicine-form-group">
+        <%= form.label :card_details, "Card Details" %>
+        <div id="stripe-card-element" class="medicine-form-control"></div>
+        <input type="hidden" name="record[stripe_token]" value="">
+      </div>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= form.label :address, "Address" %>
+      <%= form.text_area :address, class: 'medicine-form-control', placeholder: 'Enter Address' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= form.label :postal_code, "Postal Code" %>
+      <%= form.number_field :postal_code, class: 'medicine-form-control', placeholder: 'Enter Postal Code' %>
+    </div>
+
+    <% if current_user.cashier? %>
+      <div class="medicine-form-group">
+        <%= form.label :customer_contact, "Enter Contact Details" %>
+        <%= form.text_field :customer_contact, class: 'medicine-form-control', placeholder: 'Enter the Customer Contact Detail' %>
+      </div>
+      <div class="medicine-form-group">
+        <%= form.submit "Create Record", class: 'medicine-btn-primary', id: 'stripe-submit-button' %>
+      </div>
+    <% else %>
+      <div class="medicine-form-group">
+        <%= form.submit "Purchase Medicine", class: 'medicine-btn-primary', id: 'stripe-submit-button' %>
+      </div>
+    <% end %>
+  <% end %>
+</section>
+
+<%= javascript_include_tag 'stripe_payment', 'data-turbo-track': 'reload' %>
+<%= javascript_include_tag 'add_medicine', 'data-turbo-track': 'reload' %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const branchSelect = document.getElementById('branch-select');
+  const medicineSelect = document.getElementById('medicine-select');
+  const availableQuantityDisplay = document.getElementById('available-quantity');
+
+  branchSelect.addEventListener('change', function() {
+    const branchId = branchSelect.value;
+
+    if (branchId) {
+      fetch(`/v1/records/get_medicines_for_branch?branch_id=${branchId}`)
+        .then(response => response.json())
+        .then(data => {
+          // Clear the existing medicine options
+          medicineSelect.innerHTML = '<option value="">Select a medicine</option>';
+
+          // Populate the select box with new medicines for the selected branch
+          data.forEach(function(medicine) {
+            const option = document.createElement('option');
+            option.value = medicine.name;
+            option.text = `${medicine.name} (${medicine.quantity} available)`;
+            medicineSelect.appendChild(option);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching medicines:', error);
+        });
+    } else {
+      medicineSelect.innerHTML = '<option value="">Select a medicine</option>';
+    }
+  });
+
+  // The rest of your existing code for checking available quantities
+  const quantityInput = document.getElementById('number-of-tablets');
+  const addMedicineButton = document.getElementById('add-medicine');
+
+  function checkAvailableQuantity() {
+    const selectedMedicine = medicineSelect.value;
+    const medicines = <%= raw Medicine.all.to_json(only: [:name, :quantity]) %>;
+
+    const medicine = medicines.find(m => m.name === selectedMedicine);
+    
+    if (medicine) {
+      const availableQuantity = medicine.quantity;
+      availableQuantityDisplay.textContent = `Available: ${availableQuantity}`;
+      
+      const enteredQuantity = parseInt(quantityInput.value) || 0;
+
+      if (enteredQuantity > availableQuantity) {
+        addMedicineButton.hidden = true; 
+        window.alert("Please select a valid quantity that is less than or equal to the available stock.");
+      } else {
+        addMedicineButton.hidden = false; 
+      }
+    } else {
+      availableQuantityDisplay.textContent = ''; 
+      addMedicineButton.disabled = true; 
+    }
+  }
+
+  medicineSelect.addEventListener('change', checkAvailableQuantity);
+  quantityInput.addEventListener('input', checkAvailableQuantity);
+});
+
+</script>

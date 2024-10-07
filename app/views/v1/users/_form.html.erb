@@ -1,0 +1,39 @@
+<section class="medicine-form-section">
+  <%= form_with(model: [@branch, @user], url: @user.new_record? ? v1_branch_users_path(@branch) : v1_branch_user_path(@branch, @user), local: true) do |f| %>
+
+    <div class="medicine-form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= f.label :phone_number %>
+      <%= f.telephone_field :phone_number, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= f.label :role %>
+      <%= f.select :role, ['super_admin', 'branch_admin', 'cashier', 'customer'], {}, class: 'medicine-form-control' %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= f.submit "Create User", class: 'medicine-btn-primary' %>
+    </div>
+
+  <% end %>
+</section>

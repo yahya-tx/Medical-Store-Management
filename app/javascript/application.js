@@ -2,5 +2,5 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
-
+import "controllers/phone_input_controller";
 import "channels"

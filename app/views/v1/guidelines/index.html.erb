@@ -1,0 +1,33 @@
+<div class="main-content container">
+  <div id="guideline-carousel" class="carousel slide" data-bs-interval="false">
+  <!-- Indicators to show the current slide number -->
+  <ol class="carousel-indicators">
+    <% @screenshots.each_with_index do |_, index| %>
+      <li data-bs-target="#guideline-carousel" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></li>
+    <% end %>
+  </ol>
+
+  <div class="carousel-inner">
+    <% @screenshots.each_with_index do |screenshot, index| %>
+      <div class="carousel-item <%= 'active' if index == 0 %>">
+        <div class="row no-gutters">
+          <!-- Screenshot Image -->
+          <div class="col-md-8">
+            <img src="<%= asset_path(screenshot[:image]) %>" class="img-fluid reduced-size" alt="Guideline Step">
+          </div>
+          <!-- Sidebar Description -->
+          <div class="col-md-4 sidebar-description d-flex flex-column justify-content-center align-items-start">
+            <h4 class="mb-3">Step <%= index + 1 %></h4>
+            <p><%= screenshot[:description] %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="carousel-controls d-flex justify-content-center mt-4">
+  <%= link_to "Previous", "#guideline-carousel", class: "btn btn-secondary", data: { bs_slide: "prev" } %>
+  <%= link_to "Next", "#guideline-carousel", class: "btn btn-primary mx-3", data: { bs_slide: "next" } %>
+  <%= link_to "Skip", mark_guideline_as_complete_v1_guidelines_path, class: "btn btn-dark" %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_12_081519) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_03_122639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_12_081519) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "product_code"
+    t.date "expiry_date"
+    t.boolean "expired", default: false
     t.index ["branch_id"], name: "index_medicines_on_branch_id"
   end
 
@@ -65,6 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_12_081519) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
+    t.integer "order_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -79,6 +82,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_12_081519) do
     t.string "customer_contact"
     t.integer "number_of_tablets"
     t.integer "branch_id"
+    t.string "address"
+    t.integer "postal_code"
+    t.string "tracking_id"
     t.index ["cashier_id"], name: "index_records_on_cashier_id"
     t.index ["customer_id"], name: "index_records_on_customer_id"
   end
@@ -111,6 +117,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_12_081519) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "branch_id"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

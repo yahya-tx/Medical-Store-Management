@@ -1,0 +1,51 @@
+<section class="medicine-form-section">
+  <div id="stripe-public-key" data-key="<%= Rails.application.credentials.stripe[:public_key] %>"></div>
+  <%= form_with(model: [@branch, @record], url: v1_branch_records_path(@branch), local: true, html: { id: 'medicine-form' }) do |form| %>
+
+    <div id="medicines-fields">
+      <div class="medicine-form-group">
+        <%= form.label :medicine_name, "Select Medicine" %>
+        <%= form.collection_select :medicine_name, 
+          Medicine.where(branch_id: @branch.id).map { |medicine| ["#{medicine.name} (#{medicine.quantity} available)", medicine.name] }, 
+          :last, :first, { prompt: 'Select a medicine' }, 
+          { name: 'record[medicine_name][]', class: 'medicine-form-control select-medicine' } %>
+      </div>
+
+      <div class="medicine-form-group">
+        <%= form.label :quantity %>
+        <input type="number" name="record[number_of_tablets][]" class="medicine-form-control" id="number-of-tablets" placeholder="Enter Quantity">
+        <div id="available-quantity" style="margin-top: 5px; font-weight: bold;"></div> <!-- Display available quantity here -->
+      </div>
+    </div>
+
+    <%= link_to 'Add another medicine', 'javascript:void(0);', id: 'add-medicine', class: 'btn btn-secondary' %>
+
+    <div class="medicine-form-group">
+      <%= form.label :payment_method %>
+      <%= form.select :payment_method, [["Cash", "cash"], ["Online", "online"]], {}, { class: 'medicine-form-control', id: 'payment-method-select' } %>
+    </div>
+
+    <div id="online-payment-fields" style="display: none;">
+      <div class="medicine-form-group">
+        <%= form.label :stripe_email, "Stripe Email" %>
+        <%= form.text_field :stripe_email, class: 'medicine-form-control', placeholder: 'Enter your Stripe email' %>
+      </div>
+      <div class="medicine-form-group">
+        <%= form.label :card_details, "Card Details" %>
+        <div id="stripe-card-element" class="medicine-form-control"></div>
+        <input type="hidden" name="record[stripe_token]" value="">
+      </div>
+    </div>
+
+      <div class="medicine-form-group">
+        <%= form.label :customer_contact, "Enter Contact Details" %>
+        <%= form.text_field :customer_contact, class: 'medicine-form-control', placeholder: 'Enter the Customer Contact Detail' %>
+      </div>
+      <div class="medicine-form-group">
+        <%= form.submit "Create Record", class: 'medicine-btn-primary', id: 'stripe-submit-button' %>
+      </div>
+  <% end %>
+</section>
+<%= javascript_include_tag 'stripe_payment', 'data-turbo-track': 'reload' %>
+<%= javascript_include_tag 'cashier_add_medicine', 'data-turbo-track': 'reload' %>
+

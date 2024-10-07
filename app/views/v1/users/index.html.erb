@@ -1,0 +1,27 @@
+<div class="main-content container">
+  <h1>Users for <%= @branch.name %></h1>
+
+  <table class="table">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.phone_number %></td>
+          <td><%= user.role.capitalize %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
