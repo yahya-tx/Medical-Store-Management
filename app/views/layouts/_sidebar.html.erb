@@ -1,0 +1,114 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <%= link_to 'Pharma Site', v1_root_path, class: 'nav-link-heading' %>
+  </div>
+  <div class="sidebar-content">
+    <ul class="nav flex-column">
+      <% if current_user.branch_admin? %>
+        <li class="nav-item">
+          <%= link_to 'Add Medicine', new_v1_branch_medicine_path(current_user.branch), class: "nav-link #{'active' if current_page?(new_v1_branch_medicine_path(current_user.branch))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'View Sales', v1_branch_records_path(current_user.branch), class: "nav-link #{'active' if current_page?(v1_branch_records_path(current_user.branch))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'View Stock Requests', v1_branch_stock_transfers_path(current_user.branch), class: "nav-link #{'active' if current_page?(v1_branch_stock_transfers_path(current_user.branch))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Pending Orders', pending_orders_v1_branch_records_path(current_user.branch), class: "nav-link #{'active' if current_page?(pending_orders_v1_branch_records_path(current_user.branch))}" %>
+        </li>
+        <li class="nav-item">
+        <%= link_to 'Delivered Orders', delivered_orders_v1_branch_records_path(current_user.branch), class: "nav-link #{'active' if current_page?(delivered_orders_v1_branch_records_path(current_user.branch))}" %>
+      </li>
+      <% end %>
+      <% if current_user.super_admin? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="branchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            View Branches Sales
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="branchDropdown">
+          <li>
+            <input type="text" id="branchSearchInput" class="form-control" placeholder="Search Branch..." onkeyup="filterBranches()" style="margin: 2px; width: 160px;">
+          </li>
+          <% Branch.all.each do |branch| %>
+              <li class="branch-item">
+              <%= link_to branch.name, v1_branch_records_path(branch), class: "dropdown-item" %>
+            </li>
+          <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% if current_user.super_admin? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="auditBranchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            View Audits by Branch
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="auditBranchDropdown">
+            <li>
+              <input type="text" id="branchSearchInput" class="form-control" placeholder="Search Branch..." onkeyup="filterBranches()"style="margin: 2px; width: 160px;">
+            </li>
+            <% Branch.all.each do |branch| %>
+              <li class="branch-item">
+                <%= link_to branch.name, v1_branch_audit_logs_path(branch), class: "dropdown-item" %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+
+
+      <% if current_user.super_admin? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="branchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            View Transfer Requests
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="branchDropdown">
+          <li>
+            <input type="text" id="branchSearchInput" class="form-control" placeholder="Search Branch..." onkeyup="filterBranches()" style="margin: 2px; width: 160px;">
+          </li>
+            <% Branch.all.each do |branch| %>
+              <li class="branch-item">
+                <%= link_to branch.name, v1_branch_stock_transfers_path(branch), class: "dropdown-item" %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% if current_user.cashier? %>
+        <li class="nav-item">
+          <%= link_to 'Create Bill', new_v1_branch_record_path(current_user.branch), class: "nav-link #{'active' if current_page?(new_v1_branch_record_path(current_user.branch))}" %>
+        </li>
+      <% end %>
+
+      <% if current_user.cashier? || current_user.branch_admin? %>
+        <li class="nav-item">
+          <%= link_to 'View Medicines', v1_branch_medicines_path(current_user.branch), class: "nav-link #{'active' if current_page?(v1_branch_medicines_path(current_user.branch))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Request Stock Transfer', new_v1_branch_stock_transfer_path(current_user.branch), class: "nav-link #{'active' if current_page?(new_v1_branch_stock_transfer_path(current_user.branch))}" %>
+        </li>
+      <% end %>
+      <% if current_user.customer? %>
+      <li class="nav-item">
+       <%= link_to 'Purchase Medicine', customer_purchase_v1_records_path, class: "nav-link #{'active' if current_page?(customer_purchase_v1_records_path)}" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'View Order History', customer_records_v1_records_path, class: "nav-link #{'active' if current_page?(customer_records_v1_records_path)}" %>
+      </li>
+      <% end %>
+
+      <% if current_user.super_admin? %>
+        <%= link_to 'Manage All Branches', v1_branches_path, class: "nav-link #{'active' if current_page?(v1_branches_path)}" %>
+      <% end %>
+</br>
+      <% if user_signed_in? %>
+        <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'btn btn-danger' %>
+      <% end %>
+    </ul>
+  </div>
+</aside>
+<%= javascript_include_tag 'sidebar', 'data-turbo-track': 'reload' %>
+

@@ -1,7 +1,0 @@
-<h2> New Stock Transfer Request </h2>
-<%= render 'form' , stock_transfer: @stock_transfer %>
-<% if current_user.cashier? %>
-   <%= link_to 'Back', branch_medicines_path(@branch), class: 'btn btn-danger' %>
-<% else %> 
-   <%= link_to 'Back', branch_stock_transfers_path(@branch), class: 'btn btn-danger' %>
-<% end %>

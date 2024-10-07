@@ -1,0 +1,44 @@
+<section class="medicine-form-section">
+  <%= form_with(model: [@branch, @medicine], url: @medicine.new_record? ? v1_branch_medicines_path(@branch) : v1_branch_medicine_path(@branch, @medicine), local: true) do |form| %>
+  
+    <div class="medicine-form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :description %>
+      <%= form.text_area :description, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :price %>
+      <%= form.number_field :price, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :quantity %>
+      <%= form.number_field :quantity, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :branch_id %>
+      <%= form.collection_select :branch_id, Branch.all, :id, :name, { prompt: 'Select a Branch' }, class: 'medicine-form-control' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :product_code %>
+      <%= form.text_field :product_code, class: 'medicine-form-control', placeholder: 'Please Enter Product code' %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.label :expiry_date, 'Expiry Date' %>
+      <%= form.date_field :expiry_date, class: 'medicine-form-control', min: Date.today, max: 5.years.from_now.to_date %>
+    </div>
+  
+    <div class="medicine-form-group">
+      <%= form.submit class: 'medicine-btn-primary' %>
+    </div>
+  
+  <% end %>
+</section>

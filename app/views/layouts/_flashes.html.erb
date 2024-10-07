@@ -1,5 +1,6 @@
 <% flash.each do |key, message| %>
-    <div class="flash <%= key %>">
-      <%= message %>
-    </div>
+  <div id="flash-message" class="flash <%= key %>">
+    <%= message %>
+  </div>
 <% end %>
+<%= javascript_include_tag 'flash_message', 'data-turbo-track': 'reload' %>

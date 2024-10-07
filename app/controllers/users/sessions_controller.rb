@@ -19,7 +19,7 @@ class Users::SessionsController < Devise::SessionsController
     if user && user.valid_password?(password)
       sign_in_and_redirect user, event: :authentication
     else
-      flash[:alert] = "Invalid email or password."
+      flash[:alert] = "Invalid phone number or password."
       redirect_to new_user_session_path
     end
   end

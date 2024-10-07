@@ -73,6 +73,8 @@
       <p>We have successfully processed your purchase. Below are the details of your transaction:</p>
       
       <p>Total Amount: <%= @record.total_amount %> Rs</p>
+      <p>Address: <%= @record.address %></p>
+      <p>Postal Code: <%= @record.postal_code %></p>
       <p>Payment Method: <%= @record.payment_method.capitalize %></p>
 
       <h2>Medicines Purchased:</h2>

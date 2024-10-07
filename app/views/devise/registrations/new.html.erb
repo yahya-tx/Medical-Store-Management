@@ -1,49 +1,52 @@
-<h2>Sign up</h2>
+<h2 class = "h2-heading">Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'devise-form' }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="devise-field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name, autofocus: true, autocomplete: "name", class: 'devise-input' %>
   </div>
 
   <div class="devise-field">
-    <%= f.label :phone_number %><br />
+    <%= f.label :phone_number %>
     <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input', placeholder: 'xxxx-xxxxxxx' %>
   </div>
 
   <div class="devise-field">
-    <%= f.label :email %><br />
+    <%= f.label :email %>
     <%= f.email_field :email, autocomplete: "email", class: 'devise-input' %>
   </div>
 
   <div class="devise-field">
     <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password", class: 'devise-input' %>
   </div>
 
   <div class="devise-field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'devise-input' %>
   </div>
 
   <div class="devise-field">
-  <%= f.label :role %><br />
-  <%= f.select :role, ['super_admin', 'branch_admin', 'cashier', 'customer'], {}, { class: 'devise-select' } %>
+    <%= f.label :role %>
+    <%= f.select :role, ['customer'], {}, { class: 'devise-select' } %>
   </div>
-
-  <div class="devise-field">
-    <%= f.label :branch_id, "Select Branch" %>
-    <%= f.collection_select :branch_id, Branch.all, :id, :name, { prompt: 'Select branch' }, class: 'medicine-form-control' %>
- </div>
-
+</br>
   <div class="devise-actions">
     <%= f.submit "Sign up", class: 'devise-submit' %>
   </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
+<style>
+body {
+  background-image: url('<%= asset_path("store.jpg") %>');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>

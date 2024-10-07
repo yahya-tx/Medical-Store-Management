@@ -1,0 +1,47 @@
+<!-- app/views/v1/records/delivered_orders.html.erb -->
+<div class="main-content container">
+  <h1 class="text-center mb-4 text-success">Delivered Orders</h1>
+
+
+  <!-- Records per page filter -->
+  <div class="records-per-page-filter mb-4">
+    <%= form_with url: delivered_orders_v1_branch_records_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
+      <label for="per_page" class="form-label">Records per page:</label>
+      <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
+    <% end %>
+  </div>
+
+
+  <!-- Delivered orders table -->
+  <table class="table table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Total Amount</th>
+        <th>Payment Method</th>
+        <th>Customer Contact</th>
+        <th>Customer Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @delivered_orders.each do |delivered_order| %>
+        <tr>
+          <td><%= delivered_order.id %></td>
+          <td><%= delivered_order.total_amount %> Rs</td>
+          <td><%= delivered_order.payment_method.capitalize %></td>
+          <td><%= delivered_order.customer_contact %></td>
+          <td><%= User.find_by(id: delivered_order.cashier_id).name %></td>
+          <td>
+            <%= link_to 'View Bill', v1_branch_record_path(@branch, delivered_order), class: 'btn btn-outline-dark btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination-wrapper">
+    <%= paginate @delivered_orders, class: "pagination justify-content-center" %>
+  </div>
+</div>

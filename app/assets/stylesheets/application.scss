@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "phone";
 
 // body {
 //   background-color: #bdc4cc; /* Light background color for the entire app */
@@ -8,17 +9,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 50vh;
   background: linear-gradient(135deg, #f4f4f4, #f4f4f4); /* Beautiful gradient background */
-  padding: 20px;
+  padding: 10px;
 }
 
 form {
-  background-color: #ffffff; /* White background */
-  padding: 40px;
+  background-color: #f4f4f4; /* White background */
+  padding: 10px;
   border-radius: 15px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Deeper shadow for a modern feel */
-  max-width: 600px;
+  max-width: 500px;
   width: 100%;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animations */
@@ -30,7 +31,7 @@ form:hover {
 }
 
 .medicine-form-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: left;
 }
 
@@ -39,12 +40,12 @@ form:hover {
   font-weight: bold;
   color: #495057; /* Soft dark color for labels */
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .medicine-form-control {
   width: 100%; 
-  padding: 15px;
+  padding: 9px;
   border-radius: 8px;
   border: 1px solid #ced4da;
   font-size: 16px;
@@ -248,26 +249,43 @@ form:hover {
 
   
 
-  body {
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
-  }
-  
+body {
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  /* Allow scrolling but hide scrollbar */
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0;  /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+  background: transparent;  /* Optional: background of the scrollbar */
+}
+
+
+
+
   .hero {
-    background: #007bff;
     color: #fff;
-    padding: 50px 0;
+    padding: 5px 0;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    text-align: center; 
+    z-index: 1; 
   }
   
   .hero-title {
     font-size: 3rem;
     margin-bottom: 10px;
+    margin-left: 250px;
   }
   
   .hero-subtitle {
     font-size: 1.5rem;
+    margin-left: 250px;
   }
-  
+
   .features {
     padding: 30px 0;
   }
@@ -334,6 +352,7 @@ form:hover {
   .btn-danger {
     background-color: #dc3545;
     border-color: #dc3545;
+    width: 140px;
   }
   
   .btn-danger:hover {
@@ -359,11 +378,32 @@ form:hover {
 .flash.notice {
   background-color: #d4edda;
   color: #155724;
+  position: fixed; /* Ensure it stays in place */
+  top: 20px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Set a high z-index to ensure it appears on top */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a slight shadow for better visibility */
 }
 
 .flash.alert {
   background-color: #f8d7da;
   color: #721c24;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.medic-form-control{
+  width: 450px;
+  border-radius: 7px;
 }
 
 
@@ -371,8 +411,8 @@ form:hover {
 /* Devise Gem CSS */
 .devise-form {
   width: 400px;
-  margin: 5px auto;
-  padding: 10px;
+  margin: 3px auto;
+  padding: 5px;
   background-color: #eceff1;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -384,9 +424,6 @@ h2 {
   color: #333;
 }
 
-.devise-field {
-  margin-bottom: 15px;
-}
 
 .devise-field label {
   display: block;
@@ -447,7 +484,7 @@ h2 {
 }
 
 .devise-links a {
-  color: #007bff;
+  color: #f4f6f8;
   text-decoration: none;
 }
 
@@ -550,17 +587,16 @@ h2 {
 
 /* Ensure the notification bell is positioned correctly */
 .notification-bell {
-  position: fixed; /* Fixed positioning so it stays at the top of the screen */
-  top: 10px; /* Distance from the top of the screen */
+  position: absolute; /* Fixed positioning so it stays at the top of the screen */
   right: 10px; /* Distance from the right of the screen */
   display: flex;
   align-items: center;
   background-color: #fff; /* White background for better visibility */
   border: 1px solid #ddd; /* Light border */
-  border-radius: 25px; /* Rounded corners */
-  padding: 10px 15px; /* Padding inside the bell */
+  border-radius: 15px; /* Rounded corners */
+  padding: 5px 10px; /* Padding inside the bell */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  z-index: 1000; /* Ensure it stays above other content */
+  top:10px;
 }
 
 .notification-bell a {
@@ -573,13 +609,13 @@ h2 {
 }
 
 .notification-bell #notification-count {
-  background-color: #ff5e5e;
+  background-color: #f5192b;
   color: white;
-  font-size: 12px;
+  font-size: 6px;
   font-weight: bold;
-  border-radius: 50%;
-  padding: 4px 7px;
-  margin-right: 8px; /* Space between the count and the icon */
+  border-radius: 30%;
+  padding: 2px 4px;
+  margin-right: 2px; /* Space between the count and the icon */
 }
 
 .notification-bell .icon {
@@ -654,4 +690,251 @@ h2 {
 
 .notification-show-container .btn {
   margin-right: 10px;
+}
+
+
+
+
+.btn-primary {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+/* Pagination Css */
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-wrapper .pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination-wrapper .pagination li {
+  margin: 0 5px;
+}
+
+.pagination-wrapper .pagination .page {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.pagination-wrapper .pagination a{
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.pagination-wrapper .pagination .prev {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-wrapper .pagination .first {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-wrapper .pagination a:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination-wrapper .pagination .current {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.pagination-wrapper .pagination .disabled {
+  background-color: #ddd;
+  color: #888;
+  pointer-events: none;
+  cursor: default;
+}
+.pagination-wrapper .pagination .next {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.pagination-wrapper .pagination .last {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+  width: 200px;
+  padding: 15px;
+  background-color: #383232;
+  position: fixed;
+  height: 100%;
+  top: 2px;
+}
+
+.sidebar-header {
+  margin-bottom: 50px;
+}
+
+.sidebar-content .nav-link {
+  font-size: 16px;
+  padding: 10px 0;
+  color: #f8f8f8;
+  text-decoration: none;
+  display: block;
+  position: relative; /* Make space for the dot */
+}
+.sidebar-header .nav-link-heading {
+  font-size: 16px;
+  padding: 10px 0;
+  color: #f8f8f8;
+  text-decoration: none;
+  display: block;
+}
+
+.sidebar-content .nav-link:hover
+{
+  background-color: #ec2626;
+  border-radius: 10px;
+}
+.sidebar-content .nav-link.active::before {
+  content: '→'; 
+  color: #11b611; 
+  font-size: 20px;
+  position: absolute;
+  left: -20px;
+  top: 5px; 
+}
+
+.records-per-page-filter {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.records-per-page-filter label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+form.form-per-page {
+  background-color: #cac9c9;
+  padding: 1px ; 
+  border-radius: 5px ;
+  box-shadow: none ; 
+  max-width: none ; 
+  width: 250px ; 
+  text-align: left ; 
+}
+form.search-form {
+  background-color: #cac9c9;
+  padding: 1px ; 
+  border-radius: 5px ;
+  box-shadow: none ; 
+  max-width: none ; 
+  width: 250px ; 
+  text-align: left ;
+  margin-left: 700px; 
+}
+.h2-heading{
+  text-align: center;
+  color: white;
+}
+
+
+/* Guideline Css */
+.reduced-size {
+  max-width: 160%;
+  height: auto; 
+  border-radius: 5px;
+}
+
+.sidebar-description {
+  background-color: #c8e1fa;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  max-width: 200px; /* Adjust the width as needed */
+  z-index: 10; /* Ensure it's above other content */
+}
+
+.sidebar-description h4 {
+  color: #343a40; 
+}
+
+.carousel-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.carousel-controls .btn {
+  margin: 0 5px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  display: none; /* Hide default arrows */
+}
+
+.carousel-indicators {
+  margin-bottom: 30px; /* Space between indicators and carousel bottom */
+}
+img.reduced-size {
+  max-height: 100vh; /* Ensure the image takes up the full height of the screen */
+  width: 1200px; /* Adjust the width automatically to maintain aspect ratio */
+}
+
+.main-content {
+  margin-left: 220px;
+  padding: 5px;
+  max-width: 1040px;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+.table th, .table td {
+  white-space: nowrap; /* Prevent text wrapping */
+  padding: 4px; /* Reduce padding for tighter spacing */
+}
+
+h1 {
+  color: #343a40; /* Soft dark gray for headings */
 }
