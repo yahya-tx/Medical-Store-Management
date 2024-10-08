@@ -33,3 +33,20 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+/config/credentials/=development.key
+# Ignore database config files
+/config/database.yml
+
+# Ignore asset pipeline files
+/public/assets/
+/public/uploads/
+
+# Ignore bundler config
+/.bundle
+
+# Ignore node modules for frontend assets
+/node_modules
+
+# Ignore Yarn lockfile
+/yarn.lock
