@@ -1,0 +1,52 @@
+<body>  
+  <div class="main-content container">
+    <div class="container">
+      <h3 class="text-center mb-4 text-secondary">Refund Management</h3>
+
+      <div class="records-per-page-filter">
+        <%= form_with url: v1_refunds_path, method: :get, local: true, class: 'form-per-page' do %>
+          <label for="per_page" class="form-label">Refunds per page:</label>
+          <%= select_tag :per_page, options_for_select([['Select refunds', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
+        <% end %>
+      </div>
+
+      <!-- Refunds Table -->
+      <table class="table table-hover table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Customer ID</th>
+            <th>Branch</th>
+            <th>Branch Admin</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @refunds.each do |refund| %>
+            <tr>
+              <td><%= refund.customer_id %></td>
+              <td><%= refund.branch.name %></td>
+              <td><%= refund.branch_admin.name if refund.branch_admin %></td>
+              <td><%= refund.status %></td>
+              <td><%= refund.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
+              <td>
+                <div class="d-flex gap-2 justify-content-start">
+                  <%= link_to 'View', v1_refund_path(refund), class: 'btn btn-light btn-sm' %>
+                  <% if current_user.branch_admin? %>
+                    <%= link_to 'Delete', v1_refund_path(refund), method: :delete, data: { confirm: 'Are you sure you want to delete this refund?' }, class: 'btn btn-danger btn-sm' %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination-wrapper">
+        <%= paginate @refunds, class: "pagination justify-content-center" %>
+      </div>
+    </div>
+  </div>
+</body>

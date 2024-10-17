@@ -1,13 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  customer: one
   message: MyText
   notification_type: 1
-  sent_at: 2024-09-03 08:16:05
+  user: one
 
 two:
-  customer: two
   message: MyText
   notification_type: 1
-  sent_at: 2024-09-03 08:16:05
+  user: two

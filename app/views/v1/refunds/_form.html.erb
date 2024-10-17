@@ -1,0 +1,17 @@
+<section class="medicine-form-section">
+  <%= form_with(model: @refund, url: v1_refunds_path, local: true) do |form| %>
+  
+    <div class="medicine-form-group">
+      <%= form.label :reason, 'Reason for Refund' %>
+      <%= form.text_area :reason, class: 'medicine-form-control', placeholder: 'Please provide the reason for refund' %>
+    </div>
+
+    <%= form.hidden_field :record_id, value: @record_id if @record_id.present? %> <!-- Ensure this line is present -->
+
+    <div class="medicine-form-group">
+      <%= form.submit 'Submit Refund Request', class: 'medicine-btn-primary' %>
+    </div>
+
+  <% end %>
+</section>
+

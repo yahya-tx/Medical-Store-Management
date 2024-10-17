@@ -5,5 +5,7 @@ class Branch < ApplicationRecord
     has_many :records, dependent: :destroy
     has_many :stock_transfers, dependent: :destroy
     has_many :users, dependent: :destroy
+    validates :name, presence: true
+    validates :location, presence: true
 end
 

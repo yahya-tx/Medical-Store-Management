@@ -3,7 +3,7 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'devise-form' }) do |f| %>
   <div class="devise-field">
     <%= f.label :phone_number %><br />
-    <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input', placeholder: 'xxxx-xxxxxxx', id: 'user_phone_number' %>
+    <%= f.telephone_field :phone_number, autocomplete: "tel", class: 'devise-input', id: 'user_phone_number' %>
   </div>
 
   <div class="devise-field">

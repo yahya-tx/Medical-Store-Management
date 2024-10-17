@@ -2,8 +2,8 @@
   <div class="main-content container">
     <div class="container">
       <h1 class="text-center mb-4 text-secondary">Stock Transfers</h1>
+    <% if @stock_transfers.present? %>
 
-      <!-- Records per page filter -->
       <div class="records-per-page-filter mb-4">
         <%= form_with url: v1_branch_stock_transfers_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
           <label for="per_page" class="form-label">Stock Request per page:</label>
@@ -60,15 +60,17 @@
                 <tr>
                   <td colspan="7">
                     <div class="d-flex gap-2 justify-content-start">
-                    <% if current_user.branch_admin? && stock_transfer.status == "pending" %>
-                      <%= link_to 'Download request', v1_branch_stock_transfer_path(@branch, stock_transfer, format: :pdf), class: 'btn btn-primary btn-sm' %>
-                    <% end %>
-                    <%= form_for stock_transfer, url: upload_pdf_v1_branch_stock_transfer_path(@branch, stock_transfer), html: { multipart: true, class: 'd-inline' } do |f| %>
-                        <div class="form-group d-inline">
-                          <%= f.label :pdf, 'Upload PDF', class: 'd-none' %>
-                          <%= f.file_field :pdf, class: 'form-control d-inline', style: 'width:auto;' %>
-                          <%= f.submit 'Upload Request', class: 'btn btn-primary btn-sm' %>
-                        </div>
+                      <% if current_user.branch_admin? && stock_transfer.status == "pending" %>
+                        <%= link_to 'Download request', v1_branch_stock_transfer_path(@branch, stock_transfer, format: :pdf), class: 'btn btn-primary btn-sm' %>
+                      <% end %>
+                      <% if current_user.branch_admin? %>
+                        <%= form_for stock_transfer, url: upload_pdf_v1_branch_stock_transfer_path(@branch, stock_transfer), html: { multipart: true, class: 'd-inline' } do |f| %>
+                          <div class="form-group d-inline">
+                            <%= f.label :pdf, 'Upload PDF', class: 'd-none' %>
+                            <%= f.file_field :pdf, class: 'form-control d-inline', style: 'width:auto;' %>
+                            <%= f.submit 'Upload Request', class: 'btn btn-primary btn-sm' %>
+                          </div>
+                        <% end %>
                       <% end %>
                     </div>
                   </td>
@@ -84,5 +86,8 @@
         <%= paginate @stock_transfers, class: "pagination justify-content-center" %>
       </div>
     </div>
+    <% else %>
+      <h1 class="text-center mb-4 text-danger">No Transfer Reqeuest Available To Show</h1>
+    <% end %>
   </div>
 </body>

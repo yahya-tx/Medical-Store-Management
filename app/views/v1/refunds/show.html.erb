@@ -1,0 +1,52 @@
+<h2>Refund Details</h2>
+<div class="main-content container">
+    <div class="refund-details">
+    <p>
+        <strong>Customer ID:</strong>
+        <%= @refund.customer_id %>
+    </p>
+
+    <p>
+        <strong>Branch:</strong>
+        <%= @refund.branch.name %>
+    </p>
+
+    <p>
+        <strong>Branch Admin:</strong>
+        <%= @refund.branch_admin.name if @refund.branch_admin %>
+    </p>
+
+    <p>
+        <strong>Reason for Refund:</strong>
+        <%= @refund.reason %>
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        <%= @refund.status %>
+    </p>
+
+    <p>
+        <strong>Medicine Details:</strong>
+        <ul>
+        <% @refund.medicine_details.each do |med| %>
+            <li>
+            <strong>Name:</strong> <%= med['name'] %>, 
+            <strong>Quantity:</strong> <%= med['number_of_tablets'] %>
+            </li>
+        <% end %>
+        </ul>
+    </p>
+
+    <p>
+        <strong>Created At:</strong>
+        <%= @refund.created_at.strftime("%B %d, %Y %I:%M %p") %>
+    </p>
+    </div>
+
+    <%= link_to 'Back', v1_refunds_path, class: 'btn btn-secondary' %>
+    <% if current_user.branch_admin? %>
+        <%= link_to 'Approve', approve_v1_refund_path(@refund), class: 'btn btn-secondary', method: :patch, data: { confirm: 'Are you sure you want to approve this refund?' } %>
+        <%= link_to 'Deny', v1_refund_path(@refund), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to destroy this refund?' } %>
+    <% end %>
+</div>

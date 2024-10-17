@@ -2,14 +2,13 @@
 <div class="main-content container">
   <h1 class="text-center mb-4 text-secondary">Sales Records (Last 90 Days)</h1>
 
-
-      <!-- Records per page filter -->
-      <div class="records-per-page-filter mb-4">
-        <%= form_with url: v1_branch_records_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
-          <label for="per_page" class="form-label">Records per page:</label>
-          <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
-        <% end %>
-      </div>
+<% if @records.present? %>
+    <div class="records-per-page-filter mb-4">
+      <%= form_with url: v1_branch_records_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
+        <label for="per_page" class="form-label">Records per page:</label>
+        <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
+      <% end %>
+    </div>
 
 
   <!-- Sales records table -->
@@ -49,4 +48,7 @@
   <div class="pagination-wrapper">
     <%= paginate @records, class: "pagination justify-content-center" %>
   </div>
+<% else %>
+  <h1 class="text-center mb-4 text-danger">No Sales To Show</h1>
+<% end %>
 </div>

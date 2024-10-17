@@ -1,0 +1,51 @@
+<body>  
+  <div class="main-content container">
+    <div class="container">
+      <h3 class="text-center mb-4 text-secondary">Dispute Management</h3>
+
+      <!-- Disputes Table -->
+      <table class="table table-hover table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Reason</th>
+            <th>Attachment</th>
+            <th>Status</th>
+            <th>Record ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @disputes.each do |dispute| %>
+            <tr>
+              <td><%= dispute.reason %></td>
+              <td>
+                <% if dispute.attachment.present? %>
+                  <%= link_to 'View Attachment', dispute.attachment.url, target: '_blank' ,class: 'btn btn-success btn-sm'%>
+                <% else %>
+                  No Attachment
+                <% end %>
+              </td>
+              <td><%= dispute.status %></td>
+              <td><%= dispute.record_id %></td>
+              <td>
+                <div class="d-flex gap-2 justify-content-start">
+                  <%= link_to 'View', v1_dispute_path(dispute), class: 'btn btn-light btn-sm' %>
+                  <% if current_user.branch_admin? %>
+                    <%= link_to 'Edit', edit_v1_dispute_path(dispute), class: 'btn btn-outline-dark btn-sm' %>
+                    <%= link_to 'Delete', v1_dispute_path(dispute), method: :delete, data: { confirm: 'Are you sure you want to delete this dispute?' }, class: 'btn btn-danger btn-sm' %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+
+
+      <% if current_user.branch_admin? %>
+        <%= link_to 'Create New Dispute', new_v1_dispute_path, class: 'btn btn-dark mb-3 w-100' %>
+      <% end %>
+    </div>
+  </div>
+</body>

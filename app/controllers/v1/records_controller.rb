@@ -32,10 +32,12 @@ class V1::RecordsController < ApplicationController
 
   def customer_records
     @per_page = params[:per_page]
-    @records = Record.where(customer_id: current_user.id)
+    refunded_record_ids = Refund.pluck(:record_id)
+    @records = Record.where(customer_id: current_user.id).where.not(id: refunded_record_ids)
     @pending_orders = @records.where(tracking_id: nil).order(created_at: :desc).page(params[:page]).per(@per_page)
     @delivered_orders = @records.where.not(tracking_id: nil).order(created_at: :desc).page(params[:page]).per(@per_page)
   end
+
   def get_medicines_for_branch
     branch_id = params[:branch_id]
     medicines = Medicine.where(branch_id: branch_id)
@@ -43,6 +45,16 @@ class V1::RecordsController < ApplicationController
   end
   
   def show
+  end
+
+  def download_pdf
+    @record = Record.find_by(id: params[:id])
+    respond_to do |format|
+      format.pdf do
+        pdf = RecordPdfGenerator.new(@record).generate
+        send_data pdf.render, filename: "record_#{@record.id}.pdf", type: 'application/pdf', disposition: 'inline'
+      end
+    end
   end
 
   def dispatch_order
@@ -122,6 +134,7 @@ class V1::RecordsController < ApplicationController
       token = params[:record][:stripe_token]
       begin
         intent = payment_intent(stripe_email, total_amount, token)
+        @record.payment_intent_id = intent.id
       rescue Stripe::CardError => e
         flash[:alert] = "Payment failed: #{e.message}"
         redirect_to v1_root_path and return

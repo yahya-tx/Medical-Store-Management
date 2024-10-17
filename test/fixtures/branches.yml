@@ -3,7 +3,11 @@
 one:
   name: MyString
   location: MyString
+  user: one  # Assuming 'one' is a user defined in your users fixture
+
 
 two:
   name: MyString
   location: MyString
+  user: two  # Assuming 'one' is a user defined in your users fixture
+

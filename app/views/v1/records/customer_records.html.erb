@@ -4,7 +4,7 @@
   <!-- Records per page filter -->
   <div class="records-per-page-filter mb-4">
     <%= form_with url: customer_records_v1_records_path, method: :get, local: true, class: 'form-per-page' do %>
-      <label for="per_page" class="form-label">Records per page:</label>
+      <label for="per_page" class="form-label">Select Orders per page:</label>
       <%= select_tag :per_page, options_for_select([['Select records', ''], 5, 10, 20], selected: @per_page), onchange: 'this.form.submit();', class: 'form-control' %>
     <% end %>
   </div>
@@ -20,38 +20,22 @@
           <th>Payment Method</th>
           <th>Branch Name</th>
           <th>Order Details</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @pending_orders.each do |pending_order| %>
-          <tr>
+          <tr class="order-row" data-order-id="<%= pending_order.id %>" data-total-amount="<%= pending_order.total_amount %>" data-payment-method="<%= pending_order.payment_method.capitalize %>" data-branch-name="<%= Branch.find_by(id: pending_order.branch_id).name %>" data-medicine-ids="<%= pending_order.medicine_ids.to_json %>">
             <td><%= pending_order.id %></td>
             <td><%= pending_order.total_amount %> Rs</td>
             <td><%= pending_order.payment_method.capitalize %></td>
             <td><%= Branch.find_by(id: pending_order.branch_id).name %></td>
             <td>
-              <% if pending_order.medicine_ids.present? %>
-                <table class="table table-bordered mb-0 table-sm">
-                  <thead>
-                    <tr>
-                      <th>Medicine Name</th>
-                      <th>Quantity Ordered</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% pending_order.medicine_ids.each do |medicine| %>
-                      <tr>
-                        <td><%= medicine['name'] %></td>
-                        <td><%= medicine['number_of_tablets'] %></td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              <% else %>
-                No medicine details available
-              <% end %>
+              <button class="btn btn-info view-order-details" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">View Details</button>
             </td>
-          </tr>
+            <td><%= link_to 'Download Pdf', download_pdf_v1_record_path(pending_order.id,format: :pdf), class: 'btn btn-warning' %></td>
+            <td><%= link_to 'Create Dispute', new_v1_dispute_path(record_id: pending_order.id), class: 'btn btn-warning' %></td>
+            </tr>
         <% end %>
       </tbody>
     </table>
@@ -59,6 +43,22 @@
     <!-- Pagination for Pending Orders -->
     <div class="pagination-wrapper">
       <%= paginate @pending_orders, class: "pagination justify-content-center" %>
+    </div>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="orderDetailsContent"></div>
+          <%= link_to 'Refund', '#', class: 'btn btn-dark mb-3 w-100', id: 'refundButton' %>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -74,6 +74,7 @@
           <th>Tracking ID</th>
           <th>Branch Name</th>
           <th>Order Details</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -117,3 +118,75 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const modalElement = document.getElementById('orderDetailsModal');
+  const orderDetailsContent = document.getElementById('orderDetailsContent');
+  const refundButton = document.getElementById('refundButton');
+
+  // Bootstrap modal instance
+  var modal = new bootstrap.Modal(modalElement);
+
+  // Attaching click event listener to order rows
+  document.querySelectorAll('.order-row').forEach(function(row) {
+    row.addEventListener('click', function() {
+      const orderId = this.getAttribute('data-order-id');
+      const totalAmount = this.getAttribute('data-total-amount');
+      const paymentMethod = this.getAttribute('data-payment-method');
+      const branchName = this.getAttribute('data-branch-name');
+      const medicineIds = JSON.parse(this.getAttribute('data-medicine-ids'));
+
+      let orderDetailsHtml = `
+        <h5>Order ID: ${orderId}</h5>
+        <p>Total Amount: ${totalAmount} Rs</p>
+        <p>Payment Method: ${paymentMethod}</p>
+        <p>Branch Name: ${branchName}</p>
+        <h6>Medicine Details:</h6>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Medicine Name</th>
+              <th>Quantity Ordered</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      if (medicineIds.length) {
+        medicineIds.forEach(function(medicine) {
+          orderDetailsHtml += `
+            <tr>
+              <td>${medicine.name}</td>
+              <td>${medicine.number_of_tablets}</td>
+            </tr>
+          `;
+        });
+      } else {
+        orderDetailsHtml += `<tr><td colspan="2">No medicine details available</td></tr>`;
+      }
+
+      orderDetailsHtml += `
+          </tbody>
+        </table>
+      `;
+
+      // Insert the details into the modal body
+      orderDetailsContent.innerHTML = orderDetailsHtml;
+
+      // Set the refund button link
+      refundButton.setAttribute('href', `/v1/refunds/new?record_id=${orderId}`);
+
+      // Show the modal
+      modal.show();
+    });
+  });
+
+  // Cleanup after modal is hidden
+  modalElement.addEventListener('hidden.bs.modal', function () {
+    orderDetailsContent.innerHTML = ''; // Clear modal content on close
+    document.body.classList.remove('modal-open'); // Ensure background is reset
+  });
+});
+
+</script>

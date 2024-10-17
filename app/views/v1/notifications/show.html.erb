@@ -13,8 +13,10 @@
         <strong>Order ID:</strong>
         <%= @notification.order_id %>
       </p>
-      <%= link_to 'View Order Details', v1_branch_record_path(current_user.branch), class: 'btn btn-secondary' %>
-      <% else %>
+      <% if @notification.notification_type != "refund_order" %>
+        <%= link_to 'View Order Details', v1_branch_record_path(current_user.branch), class: 'btn btn-secondary' %>
+      <% end %>
+    <% else %>
       <%= link_to 'Back to Notifications', v1_notifications_path, class: 'btn btn-secondary' %>
     <% end %>
   </div>
