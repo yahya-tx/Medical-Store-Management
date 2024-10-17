@@ -1,24 +1,47 @@
-# README
+# Medical Store Management System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a web-based Medical Store Management System built with Ruby on Rails. It handles multiple branches, stock management, customer purchases, employee access, and customer notifications.
 
-Things you may want to cover:
+## Features
+- User roles: Super Admin, Admin, Cashier, and Customer.
+- Manage branches, stock, and employees.
+- Customer purchases and notifications.
+- Inter-branch stock transfers.
+- Transaction history and audit logs.
+- **Additional Features**:
+  - Pagination for managing large datasets.
+  - Country code integration for customer contact details.
+  - Online payment integration.
+  - Medicine search functionality with Select2.
 
-* Ruby version
+## Requirements
 
-* System dependencies
+- **Ruby version**: `3.0.2`
+- **Rails version**: `7.1.4`
+- **Database**: PostgreSQL
 
-* Configuration
+## Setup Instructions
 
-* Database creation
+### 1. Clone the repository
+git clone https://github.com/yahya-tx/Medical-Store-Management.git
+cd myapp
 
-* Database initialization
+### 2. Install dependencies
+bash
+Copy code
+bundle install
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### 3. Setup the database
+bash
+Copy code
+rails db:create
+rails db:migrate
+### 4. Seed the database (optional)
+bash
+Copy code
+rails db:seed
+### 5. Start the server
+bash
+Copy code
+rails server
+Navigate to http://localhost:3000 in your browser to see the application.

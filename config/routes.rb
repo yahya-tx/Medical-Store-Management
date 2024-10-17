@@ -45,14 +45,36 @@ Rails.application.routes.draw do
       end
       resources :users, only: [:index, :new, :create, :show]
     end
+    resources :refunds do
+      member do
+        patch :approve 
+        patch :deny 
+        post :dispute
+        get :dispute_form
+      end
+    end
     resources :notifications, only: [:index, :show]
     resources :records do
+      member do
+        get 'download_pdf'
+      end
       collection do
         get 'customer_purchase', to: 'records#new_purchase', as: :customer_purchase
         post 'customer_purchase', to: 'records#customer_purchase'
         get :get_medicines_for_branch
+        
         get 'customer_records', to: 'records#customer_records'
       end
     end
+    resources :disputes, only: [:index, :show, :new, :create] do 
+      member do
+        patch :approve
+        patch :deny
+      end
+    end
+
+  end
+  direct :rails_blob do |blob|
+    { controller: 'active_storage/blobs', action: 'show', params: { signed_id: blob.signed_id, filename: blob.filename } }
   end
 end

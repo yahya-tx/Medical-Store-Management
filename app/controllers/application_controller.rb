@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :authenticate_user!
     before_action :configure_permitted_parameters, if: :devise_controller?
+    before_action :set_active_storage_url_options
     include Pundit
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -24,6 +25,9 @@ class ApplicationController < ActionController::Base
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."
       redirect_to v1_root_path
+    end
+    def set_active_storage_url_options
+      ActiveStorage::Current.url_options = { host: request.host_with_port }
     end
 
 end

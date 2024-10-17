@@ -24,4 +24,7 @@ every 1.day, at: '12:00 am' do
   runner "Medicine.update_expired_medicines"
 end
 
+every 1.day, at: '12:00 am' do
+  runner "MedicineAlertNotificationJob.perform_now"
+end
 # Learn more: http://github.com/javan/whenever

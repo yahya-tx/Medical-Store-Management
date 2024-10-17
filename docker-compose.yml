@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: yahya
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: myapp_development
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data  # Ensure this directory exists
+    ports:
+      - "5433:5432"
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server -b '0.0.0.0'"
+    volumes:
+      - .:/rails
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      POSTGRES_USER: yahya
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: myapp_development
+      RAILS_ENV: development

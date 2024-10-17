@@ -1,0 +1,43 @@
+<h1 class="medicine-details-title">Dispute Details</h1>
+
+<div class="medicine-details">
+  <p>
+    <strong>Reason:</strong>
+    <%= @dispute.reason %>
+  </p>
+
+  <p>
+    <strong>Attachment:</strong>
+    <% if @dispute.attachment.present? %>
+      <%= link_to 'Download File', @dispute.attachment.url, target: '_blank', class: 'btn btn-success btn-sm' %>
+    <% else %>
+      No Attachment
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <%= @dispute.status %>
+  </p>
+
+  <p>
+    <strong>Record ID:</strong>
+    <%= @dispute.record_id %>
+  </p>
+
+  <p>
+    <strong>Created At:</strong>
+    <%= @dispute.created_at.strftime("%B %d, %Y %H:%M") %>
+  </p>
+  <% if current_user.branch_admin? %>
+    <div class="action-buttons">
+        <% if @dispute.status != 'approved' %>
+        <%= link_to 'Accept', approve_v1_dispute_path(@dispute), method: :patch, data: { confirm: 'Are you sure you want to accept this dispute?' }, class: 'btn btn-primary' %>
+        <% end %>
+        
+        <% if @dispute.status != 'denied' %>
+        <%= link_to 'Deny', deny_v1_dispute_path(@dispute), method: :patch, data: { confirm: 'Are you sure you want to deny this dispute?' }, class: 'btn btn-danger' %>
+        <% end %>
+    </div>
+  <% end %>
+</div>

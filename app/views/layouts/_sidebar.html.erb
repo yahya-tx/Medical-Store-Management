@@ -20,6 +20,12 @@
         <li class="nav-item">
         <%= link_to 'Delivered Orders', delivered_orders_v1_branch_records_path(current_user.branch), class: "nav-link #{'active' if current_page?(delivered_orders_v1_branch_records_path(current_user.branch))}" %>
       </li>
+      <li class="nav-item">
+        <%= link_to 'View Refund Requests', v1_refunds_path, class: "nav-link #{'active' if current_page?(v1_refunds_path)}" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'View Disputes', v1_disputes_path, class: "nav-link #{'active' if current_page?(v1_disputes_path)}" %>
+      </li>
       <% end %>
       <% if current_user.super_admin? %>
         <li class="nav-item dropdown">
@@ -77,6 +83,24 @@
         </li>
       <% end %>
 
+      <% if current_user.super_admin? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="branchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            View Medicines
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="branchDropdown">
+          <li>
+            <input type="text" id="branchSearchInput" class="form-control" placeholder="Search Branch..." onkeyup="filterBranches()" style="margin: 2px; width: 160px;">
+          </li>
+            <% Branch.all.each do |branch| %>
+              <li class="branch-item">
+                <%= link_to branch.name, v1_branch_medicines_path(branch), class: "dropdown-item" %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
       <% if current_user.cashier? %>
         <li class="nav-item">
           <%= link_to 'Create Bill', new_v1_branch_record_path(current_user.branch), class: "nav-link #{'active' if current_page?(new_v1_branch_record_path(current_user.branch))}" %>
@@ -98,6 +122,12 @@
       <li class="nav-item">
         <%= link_to 'View Order History', customer_records_v1_records_path, class: "nav-link #{'active' if current_page?(customer_records_v1_records_path)}" %>
       </li>
+      <li class="nav-item">
+        <%= link_to 'View Refund History', v1_refunds_path, class: "nav-link #{'active' if current_page?(v1_refunds_path)}" %>
+      </li>
+      <li class="nav-item">
+      <%= link_to 'View Disputes', v1_disputes_path, class: "nav-link #{'active' if current_page?(v1_disputes_path)}" %>
+     </li>
       <% end %>
 
       <% if current_user.super_admin? %>

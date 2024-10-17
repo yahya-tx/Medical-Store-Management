@@ -1,0 +1,21 @@
+<section class="medicine-form-section">
+  <%= form_with(model: @dispute, url: @dispute.new_record? ? v1_disputes_path : v1_dispute_path(@dispute), local: true) do |form| %> 
+    <div class="medicine-form-group">
+      <%= form.label :reason %>
+      <%= form.text_area :reason, class: 'medicine-form-control', rows: 4 %>
+    </div>
+
+    <div class="medicine-form-group">
+      <%= form.label :attachment, 'Upload Attachment' %>
+      <%= form.file_field :attachment, class: 'medicine-form-control' %>
+    </div>
+
+    <%= form.hidden_field :record_id, value: @record_id %>  <!-- Hidden field for record_id -->
+
+    <div class="medicine-form-group">
+      <%= form.submit @dispute.new_record? ? 'Submit Dispute' : 'Update Dispute', class: 'medicine-btn-primary' %>
+    </div>
+  <% end %>
+</section>
+
+  

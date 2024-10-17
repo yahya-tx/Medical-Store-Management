@@ -5,6 +5,6 @@ class StockTransfer < ApplicationRecord
   belongs_to :requested_by, class_name: 'User'
   belongs_to :approved_by, class_name: 'User'
   belongs_to :branch
-
+  validates :quantity ,presence: true
   enum :status, [:pending, :approved]
 end

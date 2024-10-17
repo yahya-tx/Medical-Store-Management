@@ -1,0 +1,22 @@
+
+databases:
+  databaseName: myapp_development
+  name: myapp
+  user: yahya
+  plan: free
+
+  services:
+    type: web
+    name: myapp
+    runtime: ruby
+    plan: free
+    buildCommands: "./bin/render-build.sh"
+    startCommand: "bundle exec rails server"
+    enVars:
+   - key: DATABASE_URL
+      fromDatabase:
+        name: myapp
+        property: connectionString
+    - key: RAILS_MASTER_KEY
+      value: fa75ee05d7a2b01df146a96428465644
+      

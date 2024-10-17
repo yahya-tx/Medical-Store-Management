@@ -36,10 +36,20 @@ gem 'stripe'
 gem 'sassc-rails'
 
 gem 'carrierwave'
-gem 'bootstrap-sass'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 7.0.0'
+end
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
+gem 'rails-controller-testing', group: [:test]
+
+group :test do
+  gem 'factory_bot_rails'
+  gem 'database_cleaner-active_record'
+end
+
 
 gem 'devise'
 

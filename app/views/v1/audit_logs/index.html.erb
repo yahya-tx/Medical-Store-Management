@@ -2,6 +2,7 @@
   <div class="main-content container">
     <div class="container">
       <h1 class="text-center mb-4 text-secondary">Sale Audits</h1>
+  <% if @audit_logs.present? %>
       <div class="records-per-page-filter">
       <%= form_with url: v1_branch_audit_logs_path(@branch), method: :get, local: true, class: 'form-per-page' do %>
         <label for="per_page" class="form-label">Audits per page:</label>
@@ -65,6 +66,9 @@
           </tbody>
         </table>
       </div>
+    <% else %>
+    <h1 class="text-center mb-4 text-danger">No Audits To Show</h1>
+    <% end %>
     </div>
   </div>
 </body>

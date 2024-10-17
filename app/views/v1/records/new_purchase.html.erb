@@ -14,7 +14,7 @@
       <div class="medicine-form-group">
         <%= form.label :medicine_name, "Select Medicine" %>
         <%= form.collection_select :medicine_name, 
-          Medicine.all.uniq.map { |medicine| ["#{medicine.name} (#{medicine.quantity} available)", medicine.name] }, 
+          Medicine.where(expired: false).where.not(quantity: nil).uniq.map { |medicine| ["#{medicine.name} (#{medicine.quantity} available)", medicine.name] }, 
           :last, :first, { prompt: 'Select a medicine' }, 
           { name: 'record[medicine_name][]', class: 'medicine-form-control select-medicine', id: 'medicine-select' } %>
       </div>
@@ -79,23 +79,30 @@ document.addEventListener('DOMContentLoaded', function() {
   const branchSelect = document.getElementById('branch-select');
   const medicineSelect = document.getElementById('medicine-select');
   const availableQuantityDisplay = document.getElementById('available-quantity');
+  const quantityInput = document.getElementById('number-of-tablets');
+  const addMedicineButton = document.getElementById('add-medicine');
+  const errorMessage = document.createElement('div'); // To display error message
+  errorMessage.style.color = 'red';
+  errorMessage.style.fontWeight = 'bold';
+  errorMessage.style.marginTop = '5px'; // Add margin to separate from input field
+  quantityInput.parentNode.appendChild(errorMessage); // Add error message below the input
 
-  branchSelect.addEventListener('change', function() {
-    const branchId = branchSelect.value;
-
+  function fetchMedicinesForBranch(branchId) {
     if (branchId) {
       fetch(`/v1/records/get_medicines_for_branch?branch_id=${branchId}`)
         .then(response => response.json())
         .then(data => {
-          // Clear the existing medicine options
+          // Clear existing medicine options
           medicineSelect.innerHTML = '<option value="">Select a medicine</option>';
 
           // Populate the select box with new medicines for the selected branch
           data.forEach(function(medicine) {
-            const option = document.createElement('option');
-            option.value = medicine.name;
-            option.text = `${medicine.name} (${medicine.quantity} available)`;
-            medicineSelect.appendChild(option);
+            if (medicine.quantity > 0) {
+              const option = document.createElement('option');
+              option.value = medicine.name;
+              option.text = `${medicine.name} (${medicine.quantity} available)`;
+              medicineSelect.appendChild(option);
+            }
           });
         })
         .catch(error => {
@@ -104,35 +111,51 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       medicineSelect.innerHTML = '<option value="">Select a medicine</option>';
     }
-  });
-
-  // The rest of your existing code for checking available quantities
-  const quantityInput = document.getElementById('number-of-tablets');
-  const addMedicineButton = document.getElementById('add-medicine');
+  }
 
   function checkAvailableQuantity() {
     const selectedMedicine = medicineSelect.value;
-    const medicines = <%= raw Medicine.all.to_json(only: [:name, :quantity]) %>;
+    const branchId = branchSelect.value;
 
-    const medicine = medicines.find(m => m.name === selectedMedicine);
-    
-    if (medicine) {
-      const availableQuantity = medicine.quantity;
-      availableQuantityDisplay.textContent = `Available: ${availableQuantity}`;
-      
-      const enteredQuantity = parseInt(quantityInput.value) || 0;
+    if (branchId && selectedMedicine) {
+      fetch(`/v1/records/get_medicines_for_branch?branch_id=${branchId}`)
+        .then(response => response.json())
+        .then(data => {
+          const medicine = data.find(m => m.name === selectedMedicine);
 
-      if (enteredQuantity > availableQuantity) {
-        addMedicineButton.hidden = true; 
-        window.alert("Please select a valid quantity that is less than or equal to the available stock.");
-      } else {
-        addMedicineButton.hidden = false; 
-      }
-    } else {
-      availableQuantityDisplay.textContent = ''; 
-      addMedicineButton.disabled = true; 
+          if (medicine) {
+            const availableQuantity = medicine.quantity;
+            availableQuantityDisplay.textContent = `Available: ${availableQuantity}`;
+
+            const enteredQuantity = parseInt(quantityInput.value) || 0;
+
+            if (enteredQuantity > availableQuantity) {
+              quantityInput.value = 00;
+              quantityInput.style.borderColor = 'red'; // Highlight the input field in red
+              errorMessage.textContent = `You cannot enter more than ${availableQuantity} units.`;
+              addMedicineButton.hidden = true; // Hide the add medicine button
+            } else {
+              quantityInput.style.borderColor = ''; // Reset the input field style
+              errorMessage.textContent = ''; // Clear the error message
+              addMedicineButton.hidden = false; // Show the add medicine button
+            }
+          } else {
+            availableQuantityDisplay.textContent = '';
+            quantityInput.style.borderColor = '';
+            errorMessage.textContent = ''; // Clear the error message
+            addMedicineButton.hidden = true; // Hide the add medicine button
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching available quantity:', error);
+        });
     }
   }
+
+  branchSelect.addEventListener('change', function() {
+    const branchId = branchSelect.value;
+    fetchMedicinesForBranch(branchId);
+  });
 
   medicineSelect.addEventListener('change', checkAvailableQuantity);
   quantityInput.addEventListener('input', checkAvailableQuantity);
